@@ -3,12 +3,13 @@
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
+    private static int size;
 
     /*
      *Удаляем все значимые части массива
      */
     void clear() {
-        int size = this.size();
+        int size = ArrayStorage.size;
         for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
@@ -19,37 +20,38 @@ public class ArrayStorage {
      */
     void save(Resume r) {
         if (r.toString() != null) {
-            storage[this.size()] = r;
+            storage[size()] = r;
         }
 
     }
 
     /*
      *Получить объект по ключу
-     * Если объекта нет выводится ключ
+     * Если объекта нет выводится null
      */
     Resume get(String uuid) {
-        for (int i = 0; i < this.size(); i++) {
+        for (int i = 0; i < ArrayStorage.size; i++) {
             if (uuid != null && storage[i].toString().equals(uuid)) {
                 return storage[i];
             }
         }
-        Resume resume = new Resume();
-        resume.uuid = uuid;
-        return resume;
+
+        return null;
     }
 
     /*
      * Удаляется объект по ключу
      */
     void delete(String uuid) {
-        for (int i = 0; i < this.size(); i++) {
+        int j = 0;
+        for (int i = 0; i < ArrayStorage.size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 storage[i] = null;
+                j = i;
                 break;
             }
         }
-        for (int j = 0; j < this.size(); j++) {
+        for (; j < ArrayStorage.size; j++) {
             if (storage[j] == null && storage[j + 1] != null) {
                 storage[j] = storage[j + 1];
                 storage[j + 1] = null;
@@ -65,9 +67,9 @@ public class ArrayStorage {
      * Возвраащается массив состоящий только из значений (не null)
      */
     Resume[] getAll() {
-        Resume[] resume = new Resume[this.size()];
-        for (int i = 0; i < this.size(); i++) {
-            if (storage[i] != null) resume[i] = storage[i];
+        Resume[] resume = new Resume[size()];
+        for (int i = 0; i < ArrayStorage.size; i++) {
+             resume[i] = storage[i];
         }
         return resume;
     }
@@ -76,12 +78,14 @@ public class ArrayStorage {
      * Подсчет элементов массива
      */
     int size() {
+
         int count = 0;
         for (Resume resume : storage) {
             if (resume != null) {
                 count++;
             }
         }
+        size = count;
         return count;
     }
 }
