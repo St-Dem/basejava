@@ -3,13 +3,12 @@
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    private static int size;
+    private int size;
 
     /*
      *Удаляем все значимые части массива
      */
     void clear() {
-        int size = ArrayStorage.size;
         for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
@@ -30,7 +29,7 @@ public class ArrayStorage {
      * Если объекта нет выводится null
      */
     Resume get(String uuid) {
-        for (int i = 0; i < ArrayStorage.size; i++) {
+        for (int i = 0; i < size; i++) {
             if (uuid != null && storage[i].toString().equals(uuid)) {
                 return storage[i];
             }
@@ -44,14 +43,14 @@ public class ArrayStorage {
      */
     void delete(String uuid) {
         int j = 0;
-        for (int i = 0; i < ArrayStorage.size; i++) {
+        for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 storage[i] = null;
                 j = i;
                 break;
             }
         }
-        for (; j < ArrayStorage.size; j++) {
+        for (; j < size; j++) {
             if (storage[j] == null && storage[j + 1] != null) {
                 storage[j] = storage[j + 1];
                 storage[j + 1] = null;
@@ -67,9 +66,9 @@ public class ArrayStorage {
      * Возвраащается массив состоящий только из значений (не null)
      */
     Resume[] getAll() {
-        Resume[] resume = new Resume[size()];
-        for (int i = 0; i < ArrayStorage.size; i++) {
-             resume[i] = storage[i];
+        Resume[] resume = new Resume[size];
+        for (int i = 0; i < size; i++) {
+            resume[i] = storage[i];
         }
         return resume;
     }
