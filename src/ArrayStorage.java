@@ -51,10 +51,7 @@ public class ArrayStorage {
             }
         }
         for (; j < size; j++) {
-            if (storage[j] == null && storage[j + 1] != null) {
-                storage[j] = storage[j + 1];
-                storage[j + 1] = null;
-            }
+            storage[j] = storage[j + 1];
         }
 
     }
@@ -63,9 +60,10 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     /*
-     * Возвраащается массив состоящий только из значений (не null)
+     * Возвращается массив состоящий только из значений (не null)
      */
     Resume[] getAll() {
+        size();
         Resume[] resume = new Resume[size];
         for (int i = 0; i < size; i++) {
             resume[i] = storage[i];
