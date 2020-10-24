@@ -12,6 +12,7 @@ public class ArrayStorage {
         for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
+        size = 0;
     }
 
     /*
@@ -19,7 +20,8 @@ public class ArrayStorage {
      */
     void save(Resume r) {
         if (r.toString() != null) {
-            storage[size()] = r;
+            storage[size] = r;
+            size++;
         }
 
     }
@@ -42,7 +44,7 @@ public class ArrayStorage {
      * Удаляется объект по ключу
      */
     void delete(String uuid) {
-        int j = 0;
+        int j = -1;
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
                 storage[i] = null;
@@ -50,10 +52,12 @@ public class ArrayStorage {
                 break;
             }
         }
-        for (; j < size; j++) {
-            storage[j] = storage[j + 1];
+        if (j != -1) {
+            for (; j < size; j++) {
+                storage[j] = storage[j + 1];
+            }
+            size--;
         }
-
     }
 
     /**
@@ -63,7 +67,6 @@ public class ArrayStorage {
      * Возвращается массив состоящий только из значений (не null)
      */
     Resume[] getAll() {
-        size();
         Resume[] resume = new Resume[size];
         for (int i = 0; i < size; i++) {
             resume[i] = storage[i];
@@ -75,7 +78,6 @@ public class ArrayStorage {
      * Подсчет элементов массива
      */
     int size() {
-
         int count = 0;
         for (Resume resume : storage) {
             if (resume != null) {
@@ -83,6 +85,6 @@ public class ArrayStorage {
             }
         }
         size = count;
-        return count;
+        return size;
     }
 }
