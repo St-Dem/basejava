@@ -53,11 +53,13 @@ public class ArrayStorage {
             }
         }
         if (j != -1) {
-            for (; j < size; j++) {
+            for (; j < size - 1; j++) {
                 storage[j] = storage[j + 1];
             }
+            storage[size - 1] = null;
             size--;
         }
+
     }
 
     /**
