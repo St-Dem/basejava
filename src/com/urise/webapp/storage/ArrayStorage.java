@@ -1,3 +1,7 @@
+package com.urise.webapp.storage;
+
+import com.urise.webapp.model.Resume;
+
 /**
  * Array based storage for Resumes
  */
@@ -8,7 +12,7 @@ public class ArrayStorage {
     /*
      *Удаляем все значимые части массива
      */
-    void clear() {
+   public void clear() {
         for (int i = 0; i < size; i++) {
             storage[i] = null;
         }
@@ -18,7 +22,7 @@ public class ArrayStorage {
     /*
      * Добавляем значения в массив
      */
-    void save(Resume r) {
+   public void save(Resume r) {
         if (r.toString() != null) {
             storage[size] = r;
             size++;
@@ -30,7 +34,7 @@ public class ArrayStorage {
      *Получить объект по ключу
      * Если объекта нет выводится null
      */
-    Resume get(String uuid) {
+   public Resume get(String uuid) {
         for (int i = 0; i < size; i++) {
             if (uuid != null && storage[i].toString().equals(uuid)) {
                 return storage[i];
@@ -43,7 +47,7 @@ public class ArrayStorage {
     /*
      * Удаляется объект по ключу
      */
-    void delete(String uuid) {
+   public void delete(String uuid) {
         int j = -1;
         for (int i = 0; i < size; i++) {
             if (storage[i].toString().equals(uuid)) {
@@ -68,7 +72,7 @@ public class ArrayStorage {
     /*
      * Возвращается массив состоящий только из значений (не null)
      */
-    Resume[] getAll() {
+   public Resume[] getAll() {
         Resume[] resume = new Resume[size];
         for (int i = 0; i < size; i++) {
             resume[i] = storage[i];
@@ -79,14 +83,7 @@ public class ArrayStorage {
     /*
      * Подсчет элементов массива
      */
-    int size() {
-        int count = 0;
-        for (Resume resume : storage) {
-            if (resume != null) {
-                count++;
-            }
-        }
-        size = count;
+ public int size() {
         return size;
     }
 }
