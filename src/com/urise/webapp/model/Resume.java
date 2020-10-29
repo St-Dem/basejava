@@ -20,4 +20,6 @@ public class Resume {
     public void setUuid(String uuid) {
         this.uuid = uuid;
     }
+
+
 }
