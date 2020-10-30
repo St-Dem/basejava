@@ -8,7 +8,7 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10_000];
+    private final Resume[] storage = new Resume[10_000];
     private int size;
 
     /*
@@ -100,8 +100,7 @@ public class ArrayStorage {
     }
 
     private boolean uuidCheck(boolean b) {
-        if (b || size == 0) return true;
-        return false;
+        return b || size == 0;
     }
 
     /**
