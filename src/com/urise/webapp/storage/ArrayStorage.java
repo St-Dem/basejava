@@ -15,7 +15,7 @@ public class ArrayStorage {
      *Удаляем все значимые части массива
      */
     public void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
@@ -24,17 +24,16 @@ public class ArrayStorage {
      * Если uuid то нужно сравниваться по другому ключу, а ключей больше нет.
      */
     public void update(Resume resume) {
-        if (resume == null || size == 0) return;
+        if (uuidCheck(resume == null)) return;
         int j = -1;
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(resume.getUuid())) {
-                storage[i].setUuid(resume.getUuid());
+                storage[i] = resume;
                 j = i;
                 break;
             }
         }
         if (j == -1) System.out.println("Резюме не существует " + resume.getUuid());
-
     }
 
     /*
@@ -45,7 +44,7 @@ public class ArrayStorage {
      */
     public void save(Resume r) {
         if (r.getUuid().isEmpty()) return;
-        if (size == 9999) {
+        if (size == storage.length - 1) {
             System.out.println("Резюме заполнено");
             return;
         }
@@ -65,9 +64,9 @@ public class ArrayStorage {
      * Если ничего не введено возвращается null
      */
     public Resume get(String uuid) {
-        if (uuid == null) return null;
+        if (uuidCheck(uuid == null)) return null;
         for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid)) {
                 return storage[i];
             }
         }
@@ -80,10 +79,10 @@ public class ArrayStorage {
      * Если удалять нечего или неоткуда - ничего не делаем.
      */
     public void delete(String uuid) {
-        if (uuid == null || size == 0) return;
+        if (uuidCheck(uuid == null)) return;
         int j = -1;
         for (int i = 0; i < size; i++) {
-            if (storage[i].toString().equals(uuid)) {
+            if (storage[i].getUuid().equals(uuid)) {
                 storage[i] = null;
                 j = i;
                 break;
@@ -98,6 +97,11 @@ public class ArrayStorage {
         } else {
             System.out.println("Резюме не существует " + uuid);
         }
+    }
+
+    private boolean uuidCheck(boolean b) {
+        if (b || size == 0) return true;
+        return false;
     }
 
     /**
