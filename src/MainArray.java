@@ -1,6 +1,5 @@
-package com.urise.webapp.storage;
-
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.ArrayStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,7 +32,7 @@ public class MainArray {
                     break;
                 case "size":
                     System.out.println(ARRAY_STORAGE.size());
-                   break;
+                    break;
                 case "save":
                     r = new Resume();
                     r.setUuid(uuid);

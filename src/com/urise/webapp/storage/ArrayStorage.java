@@ -8,14 +8,14 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[10_000];
     private int size;
 
     /*
      *Удаляем все значимые части массива
      */
     public void clear() {
-        storage = Arrays.copyOfRange(storage, 0, 0);
+        Arrays.fill(storage, null);
         size = 0;
     }
 
@@ -26,18 +26,15 @@ public class ArrayStorage {
     public void update(Resume resume) {
         if (resume == null || size == 0) return;
         int j = -1;
-        try {
-            for (int i = 0; i < size; i++) {
-                if (storage[i].getUuid().equals(resume.getUuid())) {
-                    storage[i].setUuid(resume.getUuid());
-                    j = i;
-                    break;
-                }
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(resume.getUuid())) {
+                storage[i].setUuid(resume.getUuid());
+                j = i;
+                break;
             }
-            if (j == -1) System.out.println("Резюме не существует");
-        } catch (Exception e) {
-
         }
+        if (j == -1) System.out.println("Резюме не существует " + resume.getUuid());
+
     }
 
     /*
@@ -52,21 +49,14 @@ public class ArrayStorage {
             System.out.println("Резюме заполнено");
             return;
         }
-        try {
-            for (Resume a : storage) {
-                if (r.getUuid().equals(a.getUuid())) {
-                    System.out.println("Резюме существует");
-                    return;
-                }
+        for (int i = 0; i < size; i++) {
+            if (r.getUuid().equals(storage[i].getUuid())) {
+                System.out.println("Резюме существует " + r.getUuid());
+                return;
             }
-
-        } catch (Exception e) {
-
         }
         storage[size] = r;
         size++;
-
-
     }
 
     /*
@@ -81,7 +71,7 @@ public class ArrayStorage {
                 return storage[i];
             }
         }
-        System.out.println("Резюме не существует");
+        System.out.println("Резюме не существует " + uuid);
         return null;
     }
 
@@ -106,9 +96,8 @@ public class ArrayStorage {
             storage[size - 1] = null;
             size--;
         } else {
-            System.out.println("Резюме не существует");
+            System.out.println("Резюме не существует " + uuid);
         }
-
     }
 
     /**
@@ -118,9 +107,7 @@ public class ArrayStorage {
      * Возвращается массив состоящий только из значений (не null)
      */
     public Resume[] getAll() {
-        Resume[] resume = Arrays.copyOf(storage, size);
-
-        return resume;
+        return Arrays.copyOf(storage, size);
     }
 
     /*
@@ -129,6 +116,4 @@ public class ArrayStorage {
     public int size() {
         return size;
     }
-
-
 }
