@@ -81,15 +81,17 @@ public class ArrayStorage {
             size--;
         }
     }
-/*
-* Проверка на пустую строку и пустое хранилище
- */
+
+    /*
+     * Проверка на пустую строку и пустое хранилище
+     */
     private boolean uuidCheck(boolean b) {
         return b || size == 0;
     }
-/*
-* Проверка на индекс резюме по ключу.
- */
+
+    /*
+     * Проверка на индекс резюме по ключу.
+     */
     private int indexCheck(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid))
