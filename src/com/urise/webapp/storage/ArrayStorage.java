@@ -10,6 +10,7 @@ import java.util.Arrays;
 public class ArrayStorage {
     private final Resume[] storage = new Resume[10_000];
     private int size;
+    private int check;
 
     /*
      *Удаляем все значимые части массива
@@ -25,15 +26,9 @@ public class ArrayStorage {
      */
     public void update(Resume resume) {
         if (uuidCheck(resume == null)) return;
-        int j = -1;
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(resume.getUuid())) {
-                storage[i] = resume;
-                j = i;
-                break;
-            }
-        }
-        if (j == -1) System.out.println("Резюме не существует " + resume.getUuid());
+        check = indexCheck(resume.getUuid());
+        if (check == -1) System.out.println("Резюме не существует " + resume.getUuid());
+        else storage[check] = resume;
     }
 
     /*
@@ -48,14 +43,12 @@ public class ArrayStorage {
             System.out.println("Резюме заполнено");
             return;
         }
-        for (int i = 0; i < size; i++) {
-            if (r.getUuid().equals(storage[i].getUuid())) {
-                System.out.println("Резюме существует " + r.getUuid());
-                return;
-            }
+        if (indexCheck(r.getUuid()) != -1) {
+            System.out.println("Резюме существует " + r.getUuid());
+        } else {
+            storage[size] = r;
+            size++;
         }
-        storage[size] = r;
-        size++;
     }
 
     /*
@@ -65,13 +58,12 @@ public class ArrayStorage {
      */
     public Resume get(String uuid) {
         if (uuidCheck(uuid == null)) return null;
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
-            }
+        check = indexCheck(uuid);
+        if (check == -1) {
+            System.out.println("Резюме не существует " + uuid);
+            return null;
         }
-        System.out.println("Резюме не существует " + uuid);
-        return null;
+        return storage[check];
     }
 
     /*
@@ -80,27 +72,30 @@ public class ArrayStorage {
      */
     public void delete(String uuid) {
         if (uuidCheck(uuid == null)) return;
-        int j = -1;
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                storage[i] = null;
-                j = i;
-                break;
-            }
-        }
-        if (j != -1) {
-            for (; j < size - 1; j++) {
-                storage[j] = storage[j + 1];
-            }
+        check = indexCheck(uuid);
+        if (check == -1) System.out.println("Резюме не существует " + uuid);
+        else {
+            for (; check < size - 1; check++)
+                storage[check] = storage[check + 1];
             storage[size - 1] = null;
             size--;
-        } else {
-            System.out.println("Резюме не существует " + uuid);
         }
     }
-
+/*
+* Проверка на пустую строку и пустое хранилище
+ */
     private boolean uuidCheck(boolean b) {
         return b || size == 0;
+    }
+/*
+* Проверка на индекс резюме по ключу.
+ */
+    private int indexCheck(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (storage[i].getUuid().equals(uuid))
+                return i;
+        }
+        return -1;
     }
 
     /**
