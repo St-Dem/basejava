@@ -44,7 +44,7 @@ public class ArrayStorage {
         if (r == null) {
             return;
         }
-        if (size > storage.length) {
+        if (size >= storage.length) {
             System.out.println("Резюме заполнено");
             return;
         }
