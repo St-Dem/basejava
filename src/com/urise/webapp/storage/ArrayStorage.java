@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class ArrayStorage {
     private final Resume[] storage = new Resume[10_000];
     private int size;
-    private int check;
+    private int index;
 
     /*
      *Удаляем все значимые части массива
@@ -21,15 +21,17 @@ public class ArrayStorage {
     }
 
     /*
-     * Не понимаю что мы должны менять.
-     * Если uuid то нужно сравниваться по другому ключу, а ключей больше нет.
+     * Метод меняет значение резюме по ключу uuid
+     *
      */
     public void update(Resume resume) {
-        if (checkNullAndZero(resume == null)) return;
-        check = getIndex(resume.getUuid());
-        if (check == -1) {
+        if (resume == null || size == 0) {
+            return;
+        }
+        index = getIndex(resume.getUuid());
+        if (index == -1) {
             System.out.println("Резюме не существует " + resume.getUuid());
-        } else storage[check] = resume;
+        } else storage[index] = resume;
     }
 
     /*
@@ -39,8 +41,10 @@ public class ArrayStorage {
      * Если массив резюме полон - выводится предупреждение.
      */
     public void save(Resume r) {
-        if (r.getUuid().isEmpty()) return;
-        if (size == storage.length - 1) {
+        if (r == null) {
+            return;
+        }
+        if (size > storage.length) {
             System.out.println("Резюме заполнено");
             return;
         }
@@ -58,15 +62,15 @@ public class ArrayStorage {
      * Если ничего не введено возвращается null
      */
     public Resume get(String uuid) {
-        if (checkNullAndZero(uuid == null)) {
+        if (uuid == null || size == 0) {
             return null;
         }
-        check = getIndex(uuid);
-        if (check == -1) {
+        index = getIndex(uuid);
+        if (index == -1) {
             System.out.println("Резюме не существует " + uuid);
             return null;
         }
-        return storage[check];
+        return storage[index];
     }
 
     /*
@@ -74,24 +78,17 @@ public class ArrayStorage {
      * Если удалять нечего или неоткуда - ничего не делаем.
      */
     public void delete(String uuid) {
-        if (checkNullAndZero(uuid == null)) {
+        if (uuid == null || size == 0) {
             return;
         }
-        check = getIndex(uuid);
-        if (check == -1) System.out.println("Резюме не существует " + uuid);
+        index = getIndex(uuid);
+        if (index == -1) System.out.println("Резюме не существует " + uuid);
         else {
-            for (; check < size - 1; check++)
-                storage[check] = storage[check + 1];
+            for (; index < size - 1; index++)
+                storage[index] = storage[index + 1];
             storage[size - 1] = null;
             size--;
         }
-    }
-
-    /*
-     * Проверка на пустую строку и пустое хранилище
-     */
-    private boolean checkNullAndZero(boolean b) {
-        return b || size == 0;
     }
 
     /*
@@ -106,9 +103,6 @@ public class ArrayStorage {
         return -1;
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     /*
      * Возвращается массив состоящий только из значений (не null)
      */
