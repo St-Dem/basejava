@@ -25,10 +25,11 @@ public class ArrayStorage {
      * Если uuid то нужно сравниваться по другому ключу, а ключей больше нет.
      */
     public void update(Resume resume) {
-        if (uuidCheck(resume == null)) return;
-        check = indexCheck(resume.getUuid());
-        if (check == -1) System.out.println("Резюме не существует " + resume.getUuid());
-        else storage[check] = resume;
+        if (checkNullAndZero(resume == null)) return;
+        check = getIndex(resume.getUuid());
+        if (check == -1) {
+            System.out.println("Резюме не существует " + resume.getUuid());
+        } else storage[check] = resume;
     }
 
     /*
@@ -43,7 +44,7 @@ public class ArrayStorage {
             System.out.println("Резюме заполнено");
             return;
         }
-        if (indexCheck(r.getUuid()) != -1) {
+        if (getIndex(r.getUuid()) != -1) {
             System.out.println("Резюме существует " + r.getUuid());
         } else {
             storage[size] = r;
@@ -57,8 +58,10 @@ public class ArrayStorage {
      * Если ничего не введено возвращается null
      */
     public Resume get(String uuid) {
-        if (uuidCheck(uuid == null)) return null;
-        check = indexCheck(uuid);
+        if (checkNullAndZero(uuid == null)) {
+            return null;
+        }
+        check = getIndex(uuid);
         if (check == -1) {
             System.out.println("Резюме не существует " + uuid);
             return null;
@@ -71,8 +74,10 @@ public class ArrayStorage {
      * Если удалять нечего или неоткуда - ничего не делаем.
      */
     public void delete(String uuid) {
-        if (uuidCheck(uuid == null)) return;
-        check = indexCheck(uuid);
+        if (checkNullAndZero(uuid == null)) {
+            return;
+        }
+        check = getIndex(uuid);
         if (check == -1) System.out.println("Резюме не существует " + uuid);
         else {
             for (; check < size - 1; check++)
@@ -85,17 +90,18 @@ public class ArrayStorage {
     /*
      * Проверка на пустую строку и пустое хранилище
      */
-    private boolean uuidCheck(boolean b) {
+    private boolean checkNullAndZero(boolean b) {
         return b || size == 0;
     }
 
     /*
      * Проверка на индекс резюме по ключу.
      */
-    private int indexCheck(String uuid) {
+    private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid))
+            if (storage[i].getUuid().equals(uuid)) {
                 return i;
+            }
         }
         return -1;
     }
@@ -111,7 +117,7 @@ public class ArrayStorage {
     }
 
     /*
-     * Возвращается количество ненулевых элементов массива
+     * Возвращается количество резюме
      */
     public int size() {
         return size;
