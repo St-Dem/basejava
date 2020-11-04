@@ -92,7 +92,7 @@ public class ArrayStorage {
     }
 
     /*
-     * Проверка на индекс резюме по ключу.
+     * Возвращает индекс резюме по ключу.
      */
     private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
