@@ -40,20 +40,21 @@ public class ArrayStorage {
      * Если резюме присутствует в базе выходим.
      * Если массив резюме полон - выводится предупреждение.
      */
-    public void save(Resume r) {
-        if (r == null) {
+    public void save(Resume resume) {
+        if (resume == null) {
             return;
         }
-        if (size >= storage.length) {
-            System.out.println("Резюме заполнено");
-            return;
-        }
-        if (getIndex(r.getUuid()) != -1) {
-            System.out.println("Резюме существует " + r.getUuid());
+        if (size < storage.length) {
+            if (getIndex(resume.getUuid()) != -1) {
+                System.out.println("Резюме существует " + resume.getUuid());
+            } else {
+                storage[size] = resume;
+                size++;
+            }
         } else {
-            storage[size] = r;
-            size++;
+            System.out.println("Заполнен массив резюме");
         }
+
     }
 
     /*
@@ -84,8 +85,11 @@ public class ArrayStorage {
         index = getIndex(uuid);
         if (index == -1) System.out.println("Резюме не существует " + uuid);
         else {
-            for (; index < size - 1; index++)
-                storage[index] = storage[index + 1];
+            int j = index;
+            while (j < size - 1) {
+                storage[j] = storage[j + 1];
+                j++;
+            }
             storage[size - 1] = null;
             size--;
         }
