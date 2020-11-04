@@ -85,11 +85,7 @@ public class ArrayStorage {
         index = getIndex(uuid);
         if (index == -1) System.out.println("Резюме не существует " + uuid);
         else {
-            int j = index;
-            while (j < size - 1) {
-                storage[j] = storage[j + 1];
-                j++;
-            }
+            System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
             storage[size - 1] = null;
             size--;
         }
