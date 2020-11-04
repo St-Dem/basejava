@@ -8,7 +8,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
-        if (index >= -1) {
+        if (index > -1) {
             System.out.println("Resume " + resume.getUuid() + " already exist");
         } else if (size >= STORAGE_LIMIT) {
             System.out.println("Storage overflow");
