@@ -1,32 +1,60 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.model.Resume;
+
+import java.util.Arrays;
+
 /**
  * Array based storage for Resumes
  */
-public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+public class ArrayStorage extends AbstractArrayStorage {
 
-    void clear() {
+    public void clear() {
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
     }
 
-    void save(Resume r) {
+    public void update(Resume r) {
+        int index = getIndex(r.getUuid());
+        if (index == -1) {
+            System.out.println("Resume " + r.getUuid() + " not exist");
+        } else {
+            storage[index] = r;
+        }
     }
 
-    Resume get(String uuid) {
-        return null;
+    public void save(Resume r) {
+        if (getIndex(r.getUuid()) != -1) {
+            System.out.println("Resume " + r.getUuid() + " already exist");
+        } else if (size >= STORAGE_LIMIT) {
+            System.out.println("Storage overflow");
+        } else {
+            storage[size] = r;
+            size++;
+        }
     }
 
-    void delete(String uuid) {
+    public void delete(String uuid) {
+        int index = getIndex(uuid);
+        if (index == -1) {
+            System.out.println("Resume " + uuid + " not exist");
+        } else {
+            storage[index] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
+        }
     }
 
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
-    Resume[] getAll() {
-        return new Resume[0];
+    public Resume[] getAll() {
+        return Arrays.copyOfRange(storage, 0, size);
     }
 
-    int size() {
-        return 0;
+    protected int getIndex(String uuid) {
+        for (int i = 0; i < size; i++) {
+            if (uuid.equals(storage[i].getUuid())) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
