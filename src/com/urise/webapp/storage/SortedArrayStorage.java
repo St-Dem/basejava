@@ -13,15 +13,13 @@ public class SortedArrayStorage extends AbstractArrayStorage {
             System.out.println("Storage overflow");
         } else {
             int abs = Math.abs(index);
-            System.arraycopy(storage, abs - 1, storage, abs, Math.abs(size + 1 - abs));
+            System.arraycopy(storage, abs - 1, storage, abs, size + 1 - abs);
             storage[abs - 1] = resume;
-
             size++;
         }
     }
 
     protected int getIndex(String uuid) {
-
         Resume searchKey = new Resume();
         searchKey.setUuid(uuid);
         return Arrays.binarySearch(storage, 0, size, searchKey);
