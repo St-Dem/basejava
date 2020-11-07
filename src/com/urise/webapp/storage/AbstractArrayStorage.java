@@ -64,8 +64,7 @@ public abstract class AbstractArrayStorage implements Storage {
         } else if (size >= STORAGE_LIMIT) {
             System.out.println("Storage overflow");
         } else {
-            int abs = Math.abs(index);
-            saveResume(resume, abs);
+            saveResume(resume, index);
             size++;
         }
     }
