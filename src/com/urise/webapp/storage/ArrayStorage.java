@@ -16,10 +16,7 @@ public class ArrayStorage extends AbstractArrayStorage {
         return -1;
     }
 
-    public void save(Resume resume) {
-        if (saveResume(resume) != -1) {
-            storage[size] = resume;
-            size++;
-        }
+    public void saveResume(Resume resume, int index) {
+        storage[size] = resume;
     }
 }
