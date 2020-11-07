@@ -15,12 +15,9 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
+
     public void save(Resume resume) {
-        if (getIndex(resume.getUuid()) != -1) {
-            System.out.println("Resume " + resume.getUuid() + " already exist");
-        } else if (size >= STORAGE_LIMIT) {
-            System.out.println("Storage overflow");
-        } else {
+        if (saveResume(resume) != -1) {
             storage[size] = resume;
             size++;
         }
