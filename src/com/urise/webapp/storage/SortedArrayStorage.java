@@ -7,15 +7,10 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index > -1) {
-            System.out.println("Resume " + resume.getUuid() + " already exist");
-        } else if (size >= STORAGE_LIMIT) {
-            System.out.println("Storage overflow");
-        } else {
-            int abs = Math.abs(index);
-            System.arraycopy(storage, abs - 1, storage, abs, size + 1 - abs);
-            storage[abs - 1] = resume;
+        int index = saveResume(resume);
+        if (index != -1) {
+            System.arraycopy(storage, index - 1, storage, index, size + 1 - index);
+            storage[index - 1] = resume;
             size++;
         }
     }
