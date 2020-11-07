@@ -19,4 +19,8 @@ public class ArrayStorage extends AbstractArrayStorage {
     public void saveResume(Resume resume, int index) {
         storage[size] = resume;
     }
+
+    protected void deleteResume(String uuid, int index) {
+        storage[index] = storage[size - 1];
+    }
 }
