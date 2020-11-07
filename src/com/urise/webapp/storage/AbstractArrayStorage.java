@@ -45,11 +45,13 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index <= -1) {
             System.out.println("Resume " + uuid + " not exist");
         } else {
-            System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
+            deleteResume(uuid, index);
             storage[size - 1] = null;
             size--;
         }
     }
+
+    protected abstract void deleteResume(String uuid, int index);
 
     public Resume[] getAll() {
         return Arrays.copyOfRange(storage, 0, size);
