@@ -52,7 +52,7 @@ public abstract class AbstractArrayStorageTest {
     @Test(expected = NotExistStorageException.class)
     public void updateNotExistStorage() throws Exception {
         Resume resume = new Resume(DUMMY);
-        assertSame(resume, storage.get(DUMMY));
+        storage.update(resume);
     }
 
     @Test
@@ -66,8 +66,9 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void save() throws Exception {
-        storage.save(new Resume(DUMMY));
-        Assert.assertEquals(new Resume(DUMMY), storage.get(DUMMY));
+        Resume newResume = new Resume(DUMMY);
+        storage.save(newResume);
+        Assert.assertEquals(newResume, storage.get(DUMMY));
         Assert.assertEquals(4, storage.size());
     }
 
