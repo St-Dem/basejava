@@ -21,7 +21,11 @@ public class ListStorage extends AbstractStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        return storage.toArray(new Resume[size]);
+        return storage.toArray(new Resume[0]);
+    }
+
+    public int size() {
+        return storage.size();
     }
 
     protected void deleteResume(int index) {
@@ -36,7 +40,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     protected void insertElement(Resume resume, int index) {
-        storage.add(size, resume);
+        storage.add(resume);
 
     }
 
