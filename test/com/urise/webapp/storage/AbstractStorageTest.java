@@ -65,17 +65,11 @@ public class AbstractStorageTest {
 
     @Test
     public void getAll() throws Exception {
-        Resume[] array = storage.getAll();
-        assertEquals(3, array.length);
-        assertEquals(RESUME_1, array[0]);
-        assertEquals(RESUME_2, array[1]);
-        assertEquals(RESUME_3, array[2]);
-        Set<Resume> arrayExpected = new HashSet<Resume>(Arrays.asList(array));
-        Set<Resume> arrayChecked = new HashSet<>();
-        arrayChecked.add(RESUME_1);
-        arrayChecked.add(RESUME_2);
-        arrayChecked.add(RESUME_3);
-        assertEquals(arrayExpected, arrayChecked);
+        Set<Resume> arrayChecked = new HashSet<>(Arrays.asList(storage.getAll()));
+        Set<Resume> array = new HashSet<>(Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
+
+        assertEquals(arrayChecked, array);
+        assertEquals(arrayChecked.size(), 3);
     }
 
     @Test
