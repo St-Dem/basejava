@@ -6,6 +6,10 @@ import com.urise.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -66,6 +70,12 @@ public class AbstractStorageTest {
         assertEquals(RESUME_1, array[0]);
         assertEquals(RESUME_2, array[1]);
         assertEquals(RESUME_3, array[2]);
+        Set<Resume> arrayExpected = new HashSet<Resume>(Arrays.asList(array));
+        Set<Resume> arrayChecked = new HashSet<>();
+        arrayChecked.add(RESUME_1);
+        arrayChecked.add(RESUME_2);
+        arrayChecked.add(RESUME_3);
+        assertEquals(arrayExpected, arrayChecked);
     }
 
     @Test

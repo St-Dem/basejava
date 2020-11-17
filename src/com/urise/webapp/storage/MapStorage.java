@@ -2,13 +2,12 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class MapStorage extends AbstractStorage {
     private int count = 0;
-    private final Map<Integer, Resume> storage = new TreeMap<>();
+    private final Map<Integer, Resume> storage = new HashMap<>();
 
     public void clear() {
         storage.clear();
@@ -31,7 +30,7 @@ public class MapStorage extends AbstractStorage {
     }
 
     protected void deleteResume(int index) {
-        storage.remove(index);
+        storage.put(index, storage.remove(--count));
     }
 
     public Resume getResume(int index) {
@@ -40,14 +39,6 @@ public class MapStorage extends AbstractStorage {
 
     protected void insertElement(Resume resume, int index) {
         storage.put(count++, resume);
-        if (count == 2147483647) {
-            List<Resume> arrayList = (List<Resume>) storage.values();
-            storage.clear();
-            count = 0;
-            for (Resume r : arrayList) {
-                storage.put(count++, r);
-            }
-        }
     }
 
     protected int getIndex(String uuid) {
