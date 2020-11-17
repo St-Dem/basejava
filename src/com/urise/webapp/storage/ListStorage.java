@@ -7,9 +7,9 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    protected List<Resume> storage = new ArrayList<>();
+    private final List<Resume> storage = new ArrayList<>();
 
-    protected void clearStorage() {
+    public void clear() {
         storage.clear();
     }
 
@@ -34,9 +34,6 @@ public class ListStorage extends AbstractStorage {
 
     public Resume getResume(int index) {
         return storage.get(index);
-    }
-
-    protected void fillDeletedElement(int index) {
     }
 
     protected void insertElement(Resume resume, int index) {

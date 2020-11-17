@@ -6,12 +6,6 @@ import com.urise.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    public void clear() {
-        clearStorage();
-    }
-
-    protected abstract void clearStorage();
-
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index < 0) {
@@ -40,12 +34,10 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         } else {
-            fillDeletedElement(index);
             deleteResume(index);
         }
     }
 
-    protected abstract void fillDeletedElement(int index);
 
     protected abstract void deleteResume(int index);
 
