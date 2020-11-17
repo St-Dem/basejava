@@ -17,7 +17,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return size;
     }
 
-    protected void clearStorage() {
+    public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
@@ -46,6 +46,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
 
     protected void deleteResume(int index) {
+        fillDeletedElement(index);
         storage[size - 1] = null;
         size--;
     }
@@ -54,4 +55,5 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[index];
     }
 
+    protected abstract void fillDeletedElement(int index);
 }
