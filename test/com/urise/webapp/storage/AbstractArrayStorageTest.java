@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.UUID;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
-    private final Storage storage;
+    private Storage storage;
 
     protected AbstractArrayStorageTest(Storage storage) {
         super(storage);
@@ -22,9 +22,8 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
                 storage.save(new Resume(UUID.randomUUID().toString()));
             }
         } catch (StorageException e) {
-            Assert.fail();
+            Assert.fail("Storage was overflow before test finished.");
         }
         storage.save(new Resume());
     }
-
 }

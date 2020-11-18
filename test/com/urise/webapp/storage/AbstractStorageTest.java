@@ -11,9 +11,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertSame;
 
-public class AbstractStorageTest {
+public abstract class AbstractStorageTest {
     private Storage storage;
 
     private static final String UUID_1 = "uuid1";
@@ -41,7 +41,7 @@ public class AbstractStorageTest {
     }
 
     @Test
-    public void size() throws Exception {
+    public void size(){
         assertSize(3);
     }
 
@@ -52,10 +52,10 @@ public class AbstractStorageTest {
     }
 
     @Test
-    public void update() throws Exception {
+    public void update() {
         Resume newResume = new Resume(UUID_1);
         storage.update(newResume);
-        assertTrue(newResume == storage.get(UUID_1));
+        assertSame(newResume, storage.get(UUID_1));
     }
 
     @Test(expected = NotExistStorageException.class)
@@ -64,7 +64,7 @@ public class AbstractStorageTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void getAll()  {
         Set<Resume> arrayChecked = new HashSet<>(Arrays.asList(storage.getAll()));
         Set<Resume> array = new HashSet<>(Arrays.asList(RESUME_1, RESUME_2, RESUME_3));
 
@@ -73,7 +73,7 @@ public class AbstractStorageTest {
     }
 
     @Test
-    public void save() throws Exception {
+    public void save()  {
         storage.save(RESUME_4);
         assertSize(4);
         assertGet(RESUME_4);
@@ -98,7 +98,7 @@ public class AbstractStorageTest {
     }
 
     @Test
-    public void get() throws Exception {
+    public void get() {
         assertGet(RESUME_1);
         assertGet(RESUME_2);
         assertGet(RESUME_3);
@@ -113,7 +113,7 @@ public class AbstractStorageTest {
         assertEquals(r, storage.get(r.getUuid()));
     }
 
-    private void assertSize(int size) throws Exception {
+    private void assertSize(int size) {
         assertEquals(size, storage.size());
     }
 
