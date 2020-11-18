@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 public interface Storage {
 
-    void clear() throws Exception;
+    void clear();
 
     void update(Resume r);
 
@@ -14,8 +14,8 @@ public interface Storage {
 
     void delete(String uuid);
 
-    Resume[] getAll() throws Exception;
+    Resume[] getAll();
 
-    int size() throws Exception;
+    int size();
 }
 
