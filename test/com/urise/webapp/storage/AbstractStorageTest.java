@@ -6,8 +6,7 @@ import com.urise.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
     private static final String UUID_1 = "uuid1";
@@ -57,9 +56,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] array = storage.getAll();
-        assertEquals(3, array.length);
-        assertEquals(new Resume[]{RESUME_1, RESUME_2, RESUME_3}, array);
+        Resume[] actualResumes = storage.getAll();
+        assertEquals(3, actualResumes.length);
+        assertArrayEquals(new Resume[]{RESUME_1, RESUME_2, RESUME_3}, actualResumes);
     }
 
     @Test
