@@ -44,13 +44,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
 
-    protected void deleteResume(int index) {
+    protected void deleteResume(int index, String uuid) {
         fillDeletedElement(index);
         storage[size - 1] = null;
         size--;
     }
 
-    public Resume getResume(int index) {
+    public Resume getResume(int index, String uuid) {
         return storage[index];
     }
 

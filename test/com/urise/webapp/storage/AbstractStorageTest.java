@@ -6,6 +6,8 @@ import com.urise.webapp.model.Resume;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 public abstract class AbstractStorageTest {
@@ -57,6 +59,7 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAll() {
         Resume[] actualResumes = storage.getAll();
+        Arrays.sort(actualResumes);
         assertEquals(3, actualResumes.length);
         assertArrayEquals(new Resume[]{RESUME_1, RESUME_2, RESUME_3}, actualResumes);
     }

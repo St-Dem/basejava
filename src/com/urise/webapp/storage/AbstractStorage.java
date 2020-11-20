@@ -34,22 +34,22 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         } else {
-            deleteResume(index);
+            deleteResume(index, uuid);
         }
     }
 
 
-    protected abstract void deleteResume(int index);
+    protected abstract void deleteResume(int index, String uuid);
 
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         }
-        return getResume(index);
+        return getResume(index, uuid);
     }
 
-    protected abstract Resume getResume(int index);
+    protected abstract Resume getResume(int index, String uuid);
 
     protected abstract int getIndex(String uuid);
 }

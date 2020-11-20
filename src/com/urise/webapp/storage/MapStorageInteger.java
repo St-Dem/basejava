@@ -2,26 +2,27 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ListStorage extends AbstractStorage {
-
-    private final List<Resume> storage = new ArrayList<>();
+public class MapStorageInteger extends AbstractStorage {
+    private int count = 0;
+    private final Map<Integer, Resume> storage = new HashMap<>();
 
     public void clear() {
         storage.clear();
+        count = 0;
     }
 
     protected void updateStorage(Resume resume, int index) {
-        storage.set(index, resume);
+        storage.put(index, resume);
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+        return storage.values().toArray(new Resume[0]);
     }
 
     public int size() {
@@ -29,7 +30,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     protected void deleteResume(int index, String uuid) {
-        storage.remove(index);
+        storage.put(index, storage.remove(--count));
     }
 
     public Resume getResume(int index, String uuid) {
@@ -37,13 +38,16 @@ public class ListStorage extends AbstractStorage {
     }
 
     protected void insertElement(Resume resume, int index) {
-        storage.add(resume);
-
+        storage.put(count++, resume);
     }
 
     protected int getIndex(String uuid) {
-        return storage.indexOf(new Resume(uuid));
+        for (Map.Entry<Integer, Resume> index : storage.entrySet()) {
+            if (uuid.equals(index.getValue().getUuid())) {
+                return index.getKey();
+            }
+        }
+        return -1;
     }
 
 }
-
