@@ -5,17 +5,15 @@ import com.urise.webapp.model.Resume;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage {
-    private int count = 0;
-    private final Map<Integer, Resume> storage = new HashMap<>();
+public class MapStorageString extends AbstractStorage {
+    private final Map<String, Resume> storage = new HashMap<>();
 
     public void clear() {
         storage.clear();
-        count = 0;
     }
 
     protected void updateStorage(Resume resume, int index) {
-        storage.put(index, resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     /**
@@ -29,23 +27,21 @@ public class MapStorage extends AbstractStorage {
         return storage.size();
     }
 
-    protected void deleteResume(int index) {
-        storage.put(index, storage.remove(--count));
+    protected void deleteResume(int index, String uuid) {
+        storage.remove(uuid);
     }
 
-    public Resume getResume(int index) {
-        return storage.get(index);
+    public Resume getResume(int index, String uuid) {
+        return storage.get(uuid);
     }
 
     protected void insertElement(Resume resume, int index) {
-        storage.put(count++, resume);
+        storage.put(resume.getUuid(), resume);
     }
 
     protected int getIndex(String uuid) {
-        for (Map.Entry<Integer, Resume> index : storage.entrySet()) {
-            if (uuid.equals(index.getValue().getUuid())) {
-                return index.getKey();
-            }
+        if (storage.containsKey(uuid)) {
+            return 1;
         }
         return -1;
     }
