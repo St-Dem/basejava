@@ -13,8 +13,8 @@ public class ListStorage extends AbstractStorage {
         storage.clear();
     }
 
-    public Resume[] getAll() {
-        return storage.toArray(new Resume[0]);
+    public List<Resume> copyAll() {
+        return new ArrayList<>(storage);
     }
 
     public int size() {
@@ -42,7 +42,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     protected Object getSearchKey(String uuid) {
-        return storage.indexOf(new Resume(uuid));
+        return storage.indexOf(new Resume(uuid, "fullName0"));
     }
-}
 
+}

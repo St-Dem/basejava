@@ -3,9 +3,13 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
+    private static final Comparator<Resume> RESUME_COMPARATOR = (o1, o2) -> o1.getUuid().compareTo(o2.getUuid());
+
+    @Override
     protected void fillDeletedElement(int index) {
         int numMoved = size - index - 1;
         if (numMoved > 0) {
@@ -13,15 +17,17 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    protected Object getSearchKey(String uuid) {
-        Resume searchKey = new Resume(uuid);
-        return Arrays.binarySearch(storage, 0, size, searchKey);
-    }
-
+    @Override
     protected void saveElement(Resume resume, int index) {
-
+//      http://codereview.stackexchange.com/questions/36221/binary-search-for-inserting-in-array#answer-36239
         int insertIdx = -index - 1;
         System.arraycopy(storage, insertIdx, storage, insertIdx + 1, size - insertIdx);
         storage[insertIdx] = resume;
+    }
+
+    @Override
+    protected Object getSearchKey(String uuid) {
+        Resume searchKey = new Resume(uuid, "fullName0");
+        return Arrays.binarySearch(storage, 0, size, searchKey, RESUME_COMPARATOR);
     }
 }
