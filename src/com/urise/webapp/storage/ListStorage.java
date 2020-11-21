@@ -13,13 +13,6 @@ public class ListStorage extends AbstractStorage {
         storage.clear();
     }
 
-    protected void updateStorage(Resume resume, int index) {
-        storage.set(index, resume);
-    }
-
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     public Resume[] getAll() {
         return storage.toArray(new Resume[0]);
     }
@@ -28,22 +21,28 @@ public class ListStorage extends AbstractStorage {
         return storage.size();
     }
 
-    protected void deleteResume(int index, String uuid) {
-        storage.remove(index);
+    protected void updateStorage(Resume resume, Object index) {
+        storage.set((Integer) index, resume);
     }
 
-    public Resume getResume(int index, String uuid) {
-        return storage.get(index);
-    }
-
-    protected void insertElement(Resume resume, int index) {
+    protected void insertElement(Resume resume, Object index) {
         storage.add(resume);
-
     }
 
-    protected int getIndex(String uuid) {
+    protected void deleteResume(Object index) {
+        storage.remove((int) index);
+    }
+
+    protected Resume getResume(Object index) {
+        return storage.get((Integer) index);
+    }
+
+    protected boolean isExist(Object index) {
+        return (Integer) index > -1;
+    }
+
+    protected Object getSearchKey(String uuid) {
         return storage.indexOf(new Resume(uuid));
     }
-
 }
 
