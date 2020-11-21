@@ -12,13 +12,6 @@ public class MapStorageString extends AbstractStorage {
         storage.clear();
     }
 
-    protected void updateStorage(Resume resume, int index) {
-        storage.put(resume.getUuid(), resume);
-    }
-
-    /**
-     * @return array, contains only Resumes in storage (without null)
-     */
     public Resume[] getAll() {
         return storage.values().toArray(new Resume[0]);
     }
@@ -27,23 +20,30 @@ public class MapStorageString extends AbstractStorage {
         return storage.size();
     }
 
-    protected void deleteResume(int index, String uuid) {
-        storage.remove(uuid);
+    protected void updateStorage(Resume resume, Object uuid) {
+        storage.put((String) uuid, resume);
     }
 
-    public Resume getResume(int index, String uuid) {
-        return storage.get(uuid);
-    }
-
-    protected void insertElement(Resume resume, int index) {
+    protected void insertElement(Resume resume, Object uuid) {
         storage.put(resume.getUuid(), resume);
     }
 
-    protected int getIndex(String uuid) {
-        if (storage.containsKey(uuid)) {
-            return 1;
-        }
-        return -1;
+    protected void deleteResume(Object uuid) {
+        storage.remove(uuid);
     }
 
+    protected Resume getResume(Object uuid) {
+        return storage.get(uuid);
+    }
+
+    protected boolean isExist(Object uuid) {
+        return uuid != null;
+    }
+
+    protected Object getSearchKey(String uuid) {
+        if (storage.containsKey(uuid)) {
+            return uuid;
+        }
+        return null;
+    }
 }
