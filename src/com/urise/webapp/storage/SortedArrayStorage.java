@@ -7,7 +7,7 @@ import java.util.Comparator;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
 
-    private static final Comparator<Resume> RESUME_COMPARATOR = (o1, o2) -> o1.getUuid().compareTo(o2.getUuid());
+    private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
 
     @Override
     protected void fillDeletedElement(int index) {
@@ -18,16 +18,16 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void saveElement(Resume resume, int index) {
+    protected void insertElement(Resume r, int index) {
 //      http://codereview.stackexchange.com/questions/36221/binary-search-for-inserting-in-array#answer-36239
         int insertIdx = -index - 1;
         System.arraycopy(storage, insertIdx, storage, insertIdx + 1, size - insertIdx);
-        storage[insertIdx] = resume;
+        storage[insertIdx] = r;
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
-        Resume searchKey = new Resume(uuid, "fullName0");
+    protected Integer getSearchKey(String uuid) {
+        Resume searchKey = new Resume(uuid, "dummy");
         return Arrays.binarySearch(storage, 0, size, searchKey, RESUME_COMPARATOR);
     }
 }

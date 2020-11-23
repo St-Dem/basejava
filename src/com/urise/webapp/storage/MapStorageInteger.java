@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapStorageInteger extends AbstractStorage {
+public class MapStorageInteger extends AbstractStorage<Integer> {
     private int count = 0;
     private final Map<Integer, Resume> storage = new HashMap<>();
 
@@ -16,40 +16,46 @@ public class MapStorageInteger extends AbstractStorage {
         count = 0;
     }
 
-    public List<Resume> copyAll() {
-        return new ArrayList<>(storage.values());
-    }
-
     public int size() {
         return storage.size();
     }
 
-    protected void updateStorage(Resume resume, Object index) {
-        storage.put((Integer) index, resume);
+    protected boolean isExist(Integer index) {
+        return index > -1;
     }
 
-    protected void insertElement(Resume resume, Object index) {
-        storage.put(count++, resume);
+    @Override
+    protected void doSave(Resume r, Integer index) {
+        storage.put(count++, r);
     }
 
-    protected void deleteResume(Object index) {
-        storage.put((Integer) index, storage.remove(--count));
-    }
-
-    protected Resume getResume(Object index) {
+    @Override
+    protected Resume doGet(Integer index) {
         return storage.get(index);
     }
 
-    protected boolean isExist(Object index) {
-        return (Integer) index > -1;
+    @Override
+    protected void doDelete(Integer index) {
+        storage.put(index, storage.remove(--count));
     }
 
-    protected Object getSearchKey(String uuid) {
+    @Override
+    protected List<Resume> doCopyAll() {
+        return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    protected Integer getSearchKey(String uuid) {
         for (Map.Entry<Integer, Resume> index : storage.entrySet()) {
             if (uuid.equals(index.getValue().getUuid())) {
                 return index.getKey();
             }
         }
         return -1;
+    }
+
+    @Override
+    protected void doUpdate(Resume r, Integer index) {
+        storage.put(index, r);
     }
 }

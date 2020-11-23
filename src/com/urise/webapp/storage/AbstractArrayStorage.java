@@ -9,10 +9,11 @@ import java.util.List;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 10000;
-    protected int size = 0;
+
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
+    protected int size = 0;
 
     public int size() {
         return size;
@@ -23,39 +24,48 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    protected List<Resume> copyAll() {
-        return (Arrays.asList(Arrays.copyOfRange(storage, 0, size)));
+    @Override
+    protected void doUpdate(Resume r, Integer index) {
+        storage[index] = r;
     }
 
-    protected void updateStorage(Resume resume, Object index) {
-        storage[(int) index] = resume;
+    /**
+     * @return array, contains only Resumes in storage (without null)
+     */
+    @Override
+    public List<Resume> doCopyAll() {
+        return Arrays.asList(Arrays.copyOfRange(storage, 0, size));
     }
 
-    protected void insertElement(Resume resume, Object index) {
+    @Override
+    protected void doSave(Resume r, Integer index) {
         if (size == STORAGE_LIMIT) {
-            throw new StorageException("Storage overflow", resume.getUuid());
+            throw new StorageException("Storage overflow", r.getUuid());
+        } else {
+            insertElement(r, index);
+            size++;
         }
-        saveElement(resume, (Integer) index);
-        size++;
     }
 
-    protected abstract void saveElement(Resume resume, int index);
-
-    protected void deleteResume(Object index) {
-        fillDeletedElement((Integer) index);
+    @Override
+    public void doDelete(Integer index) {
+        fillDeletedElement(index);
         storage[size - 1] = null;
         size--;
     }
 
+    public Resume doGet(Integer index) {
+        return storage[index];
+    }
+
+    @Override
+    protected boolean isExist(Integer index) {
+        return index >= 0;
+    }
+
     protected abstract void fillDeletedElement(int index);
 
-    protected Resume getResume(Object index) {
-        return storage[(int) index];
-    }
+    protected abstract void insertElement(Resume r, int index);
 
-    protected boolean isExist(Object index) {
-        return (Integer) index > -1;
-    }
-
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 }

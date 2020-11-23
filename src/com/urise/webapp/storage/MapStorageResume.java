@@ -7,42 +7,51 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapStorageResume extends AbstractStorage {
-    private final Map<String, Resume> storage = new HashMap<>();
+public class MapStorageResume extends AbstractStorage<Resume> {
+    private Map<String, Resume> map = new HashMap<>();
 
+    @Override
+    protected Resume getSearchKey(String uuid) {
+        return map.get(uuid);
+    }
+
+    @Override
+    protected void doUpdate(Resume r, Resume resume) {
+        map.put(r.getUuid(), r);
+    }
+
+    @Override
+    protected boolean isExist(Resume resume) {
+        return resume != null;
+    }
+
+    @Override
+    protected void doSave(Resume r, Resume resume) {
+        map.put(r.getUuid(), r);
+    }
+
+    @Override
+    protected Resume doGet(Resume resume) {
+        return resume;
+    }
+
+    @Override
+    protected void doDelete(Resume resume) {
+        map.remove(resume.getUuid());
+    }
+
+    @Override
     public void clear() {
-        storage.clear();
+        map.clear();
     }
 
-    public List<Resume> copyAll() {
-        return new ArrayList<>(storage.values());
+    @Override
+    public List<Resume> doCopyAll() {
+        return new ArrayList<>(map.values());
     }
 
+    @Override
     public int size() {
-        return storage.size();
-    }
-
-    protected void updateStorage(Resume resume, Object searchKey) {
-        storage.put(resume.getUuid(), resume);
-    }
-
-    protected void insertElement(Resume resume, Object searchKey) {
-        storage.put(resume.getUuid(), resume);
-    }
-
-    protected void deleteResume(Object searchKey) {
-        storage.values().remove(searchKey);
-    }
-
-    protected Resume getResume(Object searchKey) {
-        return (Resume) searchKey;
-    }
-
-    protected boolean isExist(Object searchKey) {
-        return searchKey != null;
-    }
-
-    protected Object getSearchKey(String uuid) {
-        return storage.getOrDefault(uuid, null);
+        return map.size();
     }
 }
