@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-
     private final List<Resume> storage = new ArrayList<>();
 
     public void clear() {
@@ -42,7 +41,11 @@ public class ListStorage extends AbstractStorage {
     }
 
     protected Object getSearchKey(String uuid) {
-        return storage.indexOf(new Resume(uuid, "fullName0"));
+        for (int i = 0; i < storage.size(); i++) {
+            if (uuid.equals(storage.get(i).getUuid())) {
+                return i;
+            }
+        }
+        return -1;
     }
-
 }

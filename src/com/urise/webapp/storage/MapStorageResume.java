@@ -31,7 +31,7 @@ public class MapStorageResume extends AbstractStorage {
     }
 
     protected void deleteResume(Object searchKey) {
-        storage.values().remove(searchKey);
+        storage.remove(searchKey.toString());
     }
 
     protected Resume getResume(Object searchKey) {

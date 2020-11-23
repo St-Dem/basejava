@@ -1,11 +1,10 @@
 package com.urise.webapp.model;
 
+import java.util.Objects;
 import java.util.UUID;
 
-/**
- * ru.javawebinar.basejava.model.Resume class
- */
 public class Resume implements Comparable<Resume> {
+
 
     // Unique identifier
     private final String uuid;
@@ -28,15 +27,14 @@ public class Resume implements Comparable<Resume> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Resume resume = (Resume) o;
-
-        return uuid.equals(resume.uuid);
+        return Objects.equals(uuid, resume.uuid) &&
+                Objects.equals(fullName, resume.fullName);
     }
 
     @Override
     public int hashCode() {
-        return fullName.hashCode();
+        return Objects.hash(uuid, fullName);
     }
 
     @Override
@@ -53,3 +51,4 @@ public class Resume implements Comparable<Resume> {
         return compare;
     }
 }
+
