@@ -32,7 +32,7 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract boolean isExist(Object searchKey);
 
-    protected Object getExistedSearchKey(String uuid) {
+    private Object getExistedSearchKey(String uuid) {
         Object searchKey = getSearchKey(uuid);
         if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
@@ -40,7 +40,7 @@ public abstract class AbstractStorage implements Storage {
         return searchKey;
     }
 
-    protected Object getNotExistedSearchKey(String uuid) {
+    private Object getNotExistedSearchKey(String uuid) {
         Object searchKey = getSearchKey(uuid);
         if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
