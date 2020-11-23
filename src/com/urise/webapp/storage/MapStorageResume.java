@@ -43,9 +43,6 @@ public class MapStorageResume extends AbstractStorage {
     }
 
     protected Object getSearchKey(String uuid) {
-        if (storage.containsKey(uuid)) {
-            return storage.get(uuid);
-        }
-        return null;
+        return storage.getOrDefault(uuid, null);
     }
 }
