@@ -4,8 +4,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Resume implements Comparable<Resume> {
-
-    // Unique identifier
     private final String uuid;
 
     private final String fullName;
