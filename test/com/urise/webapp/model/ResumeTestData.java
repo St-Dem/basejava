@@ -16,12 +16,7 @@ public class ResumeTestData {
         resume.setContacts();
         resume.setSections();
         resume.contacts();
-        resume.printSection(SectionType.PERSONAL);
-        resume.printSection(SectionType.OBJECTIVE);
-        resume.printSection(SectionType.ACHIEVEMENT);
-        resume.printSection(SectionType.QUALIFICATIONS);
-        resume.printSection(SectionType.EXPERIENCE);
-        resume.printSection(SectionType.EDUCATION);
+        resume.printSection();
     }
 
 
@@ -204,9 +199,10 @@ public class ResumeTestData {
         }
     }
 
-    public void printSection(SectionType sectionType) {
-        System.out.println(resume.getSection(sectionType));
+    public void printSection() {
+        for (SectionType s : SectionType.values()) {
+            System.out.println(resume.getSection(s));
+        }
     }
-
 
 }
