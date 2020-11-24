@@ -24,7 +24,7 @@ public class Organization {
         this.text = text;
     }
 
-    public Organization(String name, String url, LocalDate dateStart, LocalDate dateEnd,, String text) {
+    public Organization(String name, String url, LocalDate dateStart, LocalDate dateEnd, String text) {
         this(name, url, dateStart, dateEnd, "apprentice", text);
     }
 
