@@ -32,9 +32,9 @@ public class ResumeTestData {
     }
 
     public void setSections() {
-        resume.addSecton(SectionType.OBJECTIVE, new TextSectionType("Ведущий стажировок " +
+        resume.addSecton(SectionType.OBJECTIVE, new TextAbstractSectionType("Ведущий стажировок " +
                 "и корпоративного обучения по Java Web и Enterprise технологиям"));
-        resume.addSecton(SectionType.PERSONAL, new TextSectionType("Аналитический склад ума, " +
+        resume.addSecton(SectionType.PERSONAL, new TextAbstractSectionType("Аналитический склад ума, " +
                 "сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
 
         List<String> achievement = new ArrayList<>();
@@ -59,7 +59,7 @@ public class ResumeTestData {
                 "(Jython/ Django).");
         achievement.add("Реализация протоколов по приему платежей всех основных платежных системы России " +
                 "(Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
-        resume.addSecton(SectionType.ACHIEVEMENT, new ListSectionType(achievement));
+        resume.addSecton(SectionType.ACHIEVEMENT, new ListAbstractSectionType(achievement));
 
         List<String> qualifications = new ArrayList<>();
         qualifications.add("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2");
@@ -84,7 +84,7 @@ public class ResumeTestData {
         qualifications.add("Отличное знание и опыт применения концепций ООП, SOA, шаблонов " +
                 "проектрирования, архитектурных шаблонов, UML, функционального программирования");
         qualifications.add("Родной русский, английский \"upper intermediate\"");
-        resume.addSecton(SectionType.QUALIFICATIONS, new ListSectionType(qualifications));
+        resume.addSecton(SectionType.QUALIFICATIONS, new ListAbstractSectionType(qualifications));
 
         List<Organization> workOrganizations = new ArrayList<>();
         Organization javaOnlineProjects = new Organization("Java Online Projects",
@@ -151,7 +151,7 @@ public class ResumeTestData {
                 "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel " +
                         "1000 S12 (CHILL, ASM).");
         workOrganizations.add(alcatel);
-        resume.addSecton(SectionType.EXPERIENCE, new OrganizationsSectionType(workOrganizations));
+        resume.addSecton(SectionType.EXPERIENCE, new OrganizationsAbstractSectionType(workOrganizations));
 
         List<Organization> educationOrganization = new ArrayList<>();
         Organization coursera = new Organization("Coursera", "https://www.coursera.org/learn/progfun1",
@@ -190,7 +190,7 @@ public class ResumeTestData {
                 "http://www.school.mipt.ru/", LocalDate.of(1984, 9, 1),
                 LocalDate.of(1987, 6, 1), "\tЗакончил с отличием");
         educationOrganization.add(zft);
-        resume.addSecton(SectionType.EDUCATION, new OrganizationsSectionType(educationOrganization));
+        resume.addSecton(SectionType.EDUCATION, new OrganizationsAbstractSectionType(educationOrganization));
     }
 
     public void contacts() {

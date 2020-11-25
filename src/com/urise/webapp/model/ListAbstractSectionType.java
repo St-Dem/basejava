@@ -3,10 +3,10 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSectionType extends Section {
+public class ListAbstractSectionType extends AbstractSection {
     private final List<String> vault;
 
-    public ListSectionType(List<String> vault) {
+    public ListAbstractSectionType(List<String> vault) {
         Objects.requireNonNull(vault, "text must not be null");
         this.vault = vault;
     }
@@ -28,7 +28,7 @@ public class ListSectionType extends Section {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ListSectionType that = (ListSectionType) o;
+        ListAbstractSectionType that = (ListAbstractSectionType) o;
         return Objects.equals(vault, that.vault);
     }
 
