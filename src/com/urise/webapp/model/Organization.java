@@ -1,55 +1,67 @@
 package com.urise.webapp.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 public class Organization {
     private String name;
     private String url;
-    private LocalDate dateStart;
-    private LocalDate dateEnd;
-    private String position;
-    private String text;
+    private final List<PositionInTime> positionInTime;
 
-    public Organization(String name, String url, LocalDate dateStart, LocalDate dateEnd, String position, String text) {
+    public Organization(String name, String url, List<PositionInTime> positionInTime) {
         Objects.requireNonNull(name, "Organization mast have name");
-        Objects.requireNonNull(dateStart, "You work a certain time");
-        Objects.requireNonNull(text, "Please enter someText");
 
         this.name = name;
         this.url = url;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
-        this.position = position;
-        this.text = text;
+        this.positionInTime = positionInTime;
     }
 
-    public Organization(String name, String url, LocalDate dateStart, LocalDate dateEnd, String text) {
-        this(name, url, dateStart, dateEnd, "apprentice", text);
-    }
+    public static class PositionInTime {
+        private LocalDate dateStart;
+        private LocalDate dateEnd;
+        private String position;
+        private String text;
 
-    public Organization(String name, String url, LocalDate dateStart, String position, String text) {
-        this(name, url, dateStart, LocalDate.now(), position, text);
-    }
+        public PositionInTime(LocalDate dateStart, LocalDate dateEnd, String position, String text) {
+            Objects.requireNonNull(dateStart, "You work a certain time");
+            Objects.requireNonNull(text, "Please enter someText");
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+            this.dateStart = dateStart;
+            this.dateEnd = dateEnd;
+            this.position = position;
+            this.text = text;
+        }
 
-    public void setDateStart(LocalDate dateStart) {
-        this.dateStart = dateStart;
-    }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            PositionInTime that = (PositionInTime) o;
+            return dateStart.equals(that.dateStart) &&
+                    Objects.equals(dateEnd, that.dateEnd) &&
+                    Objects.equals(position, that.position) &&
+                    text.equals(that.text);
+        }
 
-    public void setDateEnd(LocalDate dateEnd) {
-        this.dateEnd = dateEnd;
-    }
+        @Override
+        public int hashCode() {
+            return Objects.hash(dateStart, dateEnd, position, text);
+        }
 
-    public void setPosition(String position) {
-        this.position = position;
-    }
+        @Override
+        public String toString() {
+            return "PositionInTime{" +
+                    "dateStart=" + dateStart +
+                    ", dateEnd=" + dateEnd +
+                    ", position='" + position + '\'' +
+                    ", text='" + text + '\'' +
+                    '}';
+        }
 
-    public void setText(String text) {
-        this.text = text;
+        public PositionInTime(LocalDate dateStart, LocalDate dateEnd, String text) {
+            this(dateStart, dateEnd, "learner", text);
+        }
     }
 
     public String getName() {
@@ -60,20 +72,8 @@ public class Organization {
         return url;
     }
 
-    public LocalDate getDateStart() {
-        return dateStart;
-    }
-
-    public LocalDate getDateEnd() {
-        return dateEnd;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public String getText() {
-        return text;
+    public List<PositionInTime> getPositionInTime() {
+        return positionInTime;
     }
 
     @Override
@@ -81,17 +81,14 @@ public class Organization {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        return Objects.equals(name, that.name) &&
+        return name.equals(that.name) &&
                 Objects.equals(url, that.url) &&
-                Objects.equals(dateStart, that.dateStart) &&
-                Objects.equals(dateEnd, that.dateEnd) &&
-                Objects.equals(position, that.position) &&
-                Objects.equals(text, that.text);
+                positionInTime.equals(that.positionInTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, url, dateStart, dateEnd, position, text);
+        return Objects.hash(name, url, positionInTime);
     }
 
     @Override
@@ -99,10 +96,7 @@ public class Organization {
         return "Organization{" +
                 "name='" + name + '\'' +
                 ", url='" + url + '\'' +
-                ", dateStart=" + dateStart +
-                ", dateEnd=" + dateEnd +
-                ", position='" + position + '\'' +
-                ", text='" + text + '\'' +
+                ", positionInTime=" + positionInTime +
                 '}';
     }
 }
