@@ -2,6 +2,8 @@ package com.urise.webapp.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ResumeTestData {
@@ -11,16 +13,22 @@ public class ResumeTestData {
         this.resume = resume;
     }
 
+
     public static void main(String[] args) {
-        ResumeTestData resume = new ResumeTestData(new Resume("Grigory Kislin", "uuid5"));
-        resume.setContacts();
-        resume.setSections();
-        resume.contacts();
-        resume.printSection();
+        Resume resume = createResume("uuid5", "Grigory Kislin");
+        printContacts(resume);
+        printSection(resume);
+
     }
 
+    public static Resume createResume(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
+        setContacts(resume);
+        setSections(resume);
+        return resume;
+    }
 
-    public void setContacts() {
+    public static void setContacts(Resume resume) {
         resume.addContacts(ContactsType.PHONE, "+7(921) 855-0482)");
         resume.addContacts(ContactsType.SKYPE, "grigory.kislin");
         resume.addContacts(ContactsType.EMAIL, "gkislin@yandex.ru");
@@ -31,7 +39,7 @@ public class ResumeTestData {
         resume.addContacts(ContactsType.HOMEPAGE, "http://gkislin.ru/");
     }
 
-    public void setSections() {
+    public static void setSections(Resume resume) {
         resume.addSecton(SectionType.OBJECTIVE, new TextAbstractSectionType("Ведущий стажировок " +
                 "и корпоративного обучения по Java Web и Enterprise технологиям"));
         resume.addSecton(SectionType.PERSONAL, new TextAbstractSectionType("Аналитический склад ума, " +
@@ -88,118 +96,141 @@ public class ResumeTestData {
 
         List<Organization> workOrganizations = new ArrayList<>();
         Organization javaOnlineProjects = new Organization("Java Online Projects",
-                "https://javaops.ru/", LocalDate.of(2013, 10, 1),
-                LocalDate.now(), "Автор проекта.", "Создание, " +
-                "организация и проведение Java онлайн проектов и стажировок.");
+                "https://javaops.ru/", new ArrayList<>(Collections.singletonList(
+                new Organization.PositionInTime(LocalDate.of(2013, 10, 1),
+                        LocalDate.now(), "Автор проекта.", "Создание, " +
+                        "организация и проведение Java онлайн проектов и стажировок."))));
         workOrganizations.add(javaOnlineProjects);
+
         Organization wrike = new Organization("Wrike", "https://www.wrike.com/",
-                LocalDate.of(2014, 10, 1),
-                LocalDate.of(2016, 1, 1),
-                "Старший разработчик (backend)", "Проектирование и разработка " +
-                "онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, " +
-                "MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, " +
-                "авторизация по OAuth1, OAuth2, JWT SSO.");
+                new ArrayList<>(Collections.singletonList(new Organization.PositionInTime(
+                        LocalDate.of(2014, 10, 1),
+                        LocalDate.of(2016, 1, 1),
+                        "Старший разработчик (backend)", "Проектирование и разработка " +
+                        "онлайн платформы управления проектами Wrike (Java 8 API, Maven, Spring, " +
+                        "MyBatis, Guava, Vaadin, PostgreSQL, Redis). Двухфакторная аутентификация, " +
+                        "авторизация по OAuth1, OAuth2, JWT SSO."))));
         workOrganizations.add(wrike);
-        Organization rITCenter = new Organization("RIT Center", "",
-                LocalDate.of(2012, 4, 1),
-                LocalDate.of(2014, 10, 1),
-                "Java архитектор", "Организация процесса разработки системы ERP " +
-                "для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), " +
-                "миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), " +
-                "AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных " +
-                "сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт " +
-                "в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера " +
-                "документов MS Office. Maven + plugin development, Ant, Apache Commons, " +
-                "Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting," +
-                " Unix shell remote scripting via ssh tunnels, PL/Python");
+
+
+        Organization rITCenter = new Organization("RIT Center", "", new ArrayList<>
+                (Collections.singletonList(new Organization.PositionInTime(
+                        LocalDate.of(2012, 4, 1),
+                        LocalDate.of(2014, 10, 1),
+                        "Java архитектор", "Организация процесса разработки системы ERP " +
+                        "для разных окружений: релизная политика, версионирование, ведение CI (Jenkins), " +
+                        "миграция базы (кастомизация Flyway), конфигурирование системы (pgBoucer, Nginx), " +
+                        "AAA via SSO. Архитектура БД и серверной части системы. Разработка интергационных " +
+                        "сервисов: CMIS, BPMN2, 1C (WebServices), сервисов общего назначения (почта, экспорт " +
+                        "в pdf, doc, html). Интеграция Alfresco JLAN для online редактирование из браузера " +
+                        "документов MS Office. Maven + plugin development, Ant, Apache Commons, " +
+                        "Spring security, Spring MVC, Tomcat,WSO2, xcmis, OpenCmis, Bonita, Python scripting," +
+                        " Unix shell remote scripting via ssh tunnels, PL/Python"))));
         workOrganizations.add(rITCenter);
+
         Organization luxoftDeutscheBank = new Organization("Luxoft (Deutsche Bank)",
                 "https://career.luxoft.com/locations/russia/",
-                LocalDate.of(2010, 12, 1),
-                LocalDate.of(2012, 4, 1), "Ведущий программист",
-                "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, " +
-                        "SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. " +
-                        "Реализация RIA-приложения для администрирования, мониторинга и анализа " +
-                        "результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, " +
-                        "GWT, ExtGWT (GXT), Highstock, Commet, HTML5.");
+                new ArrayList<>(Collections.singletonList(
+                        new Organization.PositionInTime(LocalDate.of(2010, 12, 1),
+                                LocalDate.of(2012, 4, 1), "Ведущий программист",
+                                "Участие в проекте Deutsche Bank CRM (WebLogic, Hibernate, Spring, Spring MVC, " +
+                                        "SmartGWT, GWT, Jasper, Oracle). Реализация клиентской и серверной части CRM. " +
+                                        "Реализация RIA-приложения для администрирования, мониторинга и анализа " +
+                                        "результатов в области алгоритмического трейдинга. JPA, Spring, Spring-MVC, " +
+                                        "GWT, ExtGWT (GXT), Highstock, Commet, HTML5."))));
         workOrganizations.add(luxoftDeutscheBank);
+
         Organization yota = new Organization("Yota", "https://www.yota.ru/",
-                LocalDate.of(2008, 6, 1),
-                LocalDate.of(2010, 12, 1),
-                "Ведущий специалист", "Дизайн и имплементация Java EE фреймворка " +
-                "для отдела \"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, " +
-                "Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и " +
-                "мониторинга фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)");
+                new ArrayList<>(Collections.singletonList(new Organization.PositionInTime
+                        (LocalDate.of(2008, 6, 1),
+                                LocalDate.of(2010, 12, 1),
+                                "Ведущий специалист", "Дизайн и имплементация Java EE фреймворка " +
+                                "для отдела \"Платежные Системы\" (GlassFish v2.1, v3, OC4J, EJB3, JAX-WS RI 2.1, " +
+                                "Servlet 2.4, JSP, JMX, JMS, Maven2). Реализация администрирования, статистики и " +
+                                "мониторинга фреймворка. Разработка online JMX клиента (Python/ Jython, Django, ExtJS)"))));
         workOrganizations.add(yota);
+
         Organization enkata = new Organization("Enkata",
                 "https://www.pega.com/products/robotic-process-automation",
-                LocalDate.of(2007, 3, 1),
-                LocalDate.of(2008, 6, 1), "Разработчик ПО",
-                "Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, " +
-                        "Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining).");
+                new ArrayList<>(Collections.singletonList(new Organization.PositionInTime(LocalDate.of(2007, 3, 1),
+                        LocalDate.of(2008, 6, 1), "Разработчик ПО",
+                        "Реализация клиентской (Eclipse RCP) и серверной (JBoss 4.2, Hibernate 3.0, " +
+                                "Tomcat, JMS) частей кластерного J2EE приложения (OLAP, Data mining)."))));
         workOrganizations.add(enkata);
+
         Organization siemensAG = new Organization("Siemens AG", "https://new.siemens.com/ru/ru.html",
-                LocalDate.of(2005, 1, 1),
-                LocalDate.of(2007, 2, 1), "Разработчик ПО",
-                "Разработка информационной модели, проектирование интерфейсов, реализация и " +
-                        "отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix).");
+                new ArrayList<>(Collections.singletonList(new Organization.PositionInTime(LocalDate.of(2005, 1, 1),
+                        LocalDate.of(2007, 2, 1), "Разработчик ПО",
+                        "Разработка информационной модели, проектирование интерфейсов, реализация и " +
+                                "отладка ПО на мобильной IN платформе Siemens @vantage (Java, Unix)."))));
         workOrganizations.add(siemensAG);
+
         Organization alcatel = new Organization("Alcatel", "http://www.alcatel.ru/",
-                LocalDate.of(1997, 9, 1),
-                LocalDate.of(2005, 1, 1),
-                "Инженер по аппаратному и программному тестированию",
-                "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel " +
-                        "1000 S12 (CHILL, ASM).");
+                new ArrayList<>(Collections.singletonList(new Organization.PositionInTime
+                        (LocalDate.of(1997, 9, 1),
+                                LocalDate.of(2005, 1, 1),
+                                "Инженер по аппаратному и программному тестированию",
+                                "Тестирование, отладка, внедрение ПО цифровой телефонной станции Alcatel " +
+                                        "1000 S12 (CHILL, ASM)."))));
         workOrganizations.add(alcatel);
         resume.addSecton(SectionType.EXPERIENCE, new OrganizationsAbstractSectionType(workOrganizations));
 
         List<Organization> educationOrganization = new ArrayList<>();
         Organization coursera = new Organization("Coursera", "https://www.coursera.org/learn/progfun1",
-                LocalDate.of(2013, 3, 1),
-                LocalDate.of(2013, 5, 1),
-                "\t\"Functional Programming Principles in Scala\" by Martin Odersky");
+                new ArrayList<>(Collections.singletonList(new Organization.PositionInTime(LocalDate.of(2013, 3, 1),
+                        LocalDate.of(2013, 5, 1),
+                        "\t\"Functional Programming Principles in Scala\" by Martin Odersky"))));
         educationOrganization.add(coursera);
+
         Organization luxoft = new Organization("Luxoft",
                 "https://www.luxoft-training.ru/kurs/" +
                         "obektno-orientirovannyy_analiz_i_proektirovanie_na_uml.html",
-                LocalDate.of(2011, 3, 1),
-                LocalDate.of(2011, 4, 1),
-                "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"");
+                new ArrayList<>(Collections.singletonList(new Organization.PositionInTime
+                        (LocalDate.of(2011, 3, 1),
+                                LocalDate.of(2011, 4, 1),
+                                "Курс \"Объектно-ориентированный анализ ИС. " +
+                                        "Концептуальное моделирование на UML.\""))));
         educationOrganization.add(luxoft);
+
         Organization siemens = new Organization("Siemens AG", "https://new.siemens.com/ru/ru.html",
-                LocalDate.of(2005, 1, 1),
-                LocalDate.of(2005, 4, 1),
-                "3 месяца обучения мобильным IN сетям (Берлин)");
+                new ArrayList<>(Collections.singletonList(new Organization.PositionInTime
+                        (LocalDate.of(2005, 1, 1),
+                                LocalDate.of(2005, 4, 1),
+                                "3 месяца обучения мобильным IN сетям (Берлин)"))));
         educationOrganization.add(siemens);
+
         Organization alcatelEdu = new Organization("Alcatel", "http://www.alcatel.ru/",
-                LocalDate.of(1997, 9, 1),
-                LocalDate.of(1998, 3, 1),
-                "6 месяцев обучения цифровым телефонным сетям (Москва)");
+                new ArrayList<>(Collections.singletonList(new Organization.PositionInTime
+                        (LocalDate.of(1997, 9, 1),
+                                LocalDate.of(1998, 3, 1),
+                                "6 месяцев обучения цифровым телефонным сетям (Москва)"))));
         educationOrganization.add(alcatelEdu);
+
         Organization spb = new Organization("Санкт-Петербургский национальный исследовательский " +
                 "университет информационных технологий, механики и оптики", "https://itmo.ru/ru/",
-                LocalDate.of(1993, 9, 1),
-                LocalDate.of(1996, 7, 1), "Аспирантура (программист С, С++)");
+                new ArrayList<>(Arrays.asList(new Organization.PositionInTime
+                                (LocalDate.of(1993, 9, 1),
+                                        LocalDate.of(1996, 7, 1), "Аспирантура (программист С, С++)"),
+                        new Organization.PositionInTime(LocalDate.of(1987, 9, 1),
+                                LocalDate.of(1993, 7, 1), "Инженер (программист Fortran, C)"))));
         educationOrganization.add(spb);
-        Organization spb2 = new Organization("Санкт-Петербургский национальный исследовательский " +
-                "университет информационных технологий, механики и оптики", "https://itmo.ru/ru/",
-                LocalDate.of(1987, 9, 1),
-                LocalDate.of(1993, 7, 1), "Инженер (программист Fortran, C)");
-        educationOrganization.add(spb2);
+
+
         Organization zft = new Organization("Заочная физико-техническая школа при МФТИ",
-                "http://www.school.mipt.ru/", LocalDate.of(1984, 9, 1),
-                LocalDate.of(1987, 6, 1), "\tЗакончил с отличием");
+                "http://www.school.mipt.ru/", new ArrayList<>(Collections.singletonList
+                (new Organization.PositionInTime(LocalDate.of(1984, 9, 1),
+                        LocalDate.of(1987, 6, 1), "\tЗакончил с отличием"))));
         educationOrganization.add(zft);
         resume.addSecton(SectionType.EDUCATION, new OrganizationsAbstractSectionType(educationOrganization));
     }
 
-    public void contacts() {
+    public static void printContacts(Resume resume) {
         for (ContactsType s : ContactsType.values()) {
             System.out.println(resume.getContacts(s));
         }
     }
 
-    public void printSection() {
+    public static void printSection(Resume resume) {
         for (SectionType s : SectionType.values()) {
             System.out.println(resume.getSection(s));
         }
