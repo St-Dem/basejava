@@ -15,7 +15,7 @@ public class MainAllFiles {
     }
 
     public static void listFilesForFolder(final File folder) {
-        for (final File fileEntry : Objects.requireNonNull(folder.listFiles(), "IO error")) {
+        for (final File fileEntry : Objects.requireNonNull(folder.listFiles(), "Files folder error")) {
             if (fileEntry.isDirectory()) {
                 listFilesForFolder(fileEntry);
             } else {
