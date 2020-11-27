@@ -3,10 +3,10 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class OrganizationsAbstractSectionType extends AbstractSection {
+public class OrganizationsSectionType extends AbstractSection {
     private final List<Organization> organizations;
 
-    public OrganizationsAbstractSectionType(List<Organization> work) {
+    public OrganizationsSectionType(List<Organization> work) {
         this.organizations = work;
     }
 
@@ -27,7 +27,7 @@ public class OrganizationsAbstractSectionType extends AbstractSection {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrganizationsAbstractSectionType that = (OrganizationsAbstractSectionType) o;
+        OrganizationsSectionType that = (OrganizationsSectionType) o;
         return Objects.equals(organizations, that.organizations);
     }
 
