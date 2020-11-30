@@ -8,7 +8,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -104,12 +103,7 @@ public class ObjectStreamPathStorage extends AbstractStorage<Path> {
     @Override
     protected List<Resume> doCopyAll() {
         try {
-            List<Path> collect = Files.list(directory).collect(Collectors.toList());
-            List<Resume> list = new ArrayList<>(collect.size());
-            for (Path Path : collect) {
-                list.add(doGet(Path));
-            }
-            return list;
+            return Files.list(directory).map(this::doGet).collect(Collectors.toList());
         } catch (Exception e) {
             throw new StorageException("Directory read error", null);
         }
