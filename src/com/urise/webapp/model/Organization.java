@@ -1,10 +1,13 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
-public class Organization {
+public class Organization implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String name;
     private String url;
     private final List<PositionInTime> positionInTime;
@@ -17,7 +20,9 @@ public class Organization {
         this.positionInTime = positionInTime;
     }
 
-    public static class PositionInTime {
+    public static class PositionInTime implements Serializable {
+        private static final long serialVersionUID = 1L;
+
         private LocalDate dateStart;
         private LocalDate dateEnd;
         private String position;
