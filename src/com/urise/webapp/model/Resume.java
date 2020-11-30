@@ -1,11 +1,14 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Resume implements Comparable<Resume> {
+public class Resume implements Comparable<Resume>, Serializable {
+    private static final long serialVersionUID = 1L;
+    // Unique identifier
     private final String uuid;
 
     private final String fullName;
@@ -24,40 +27,43 @@ public class Resume implements Comparable<Resume> {
         this.fullName = fullName;
     }
 
-    public String getContacts(ContactsType type) {
-        return contacts.get(type);
+    public String getUuid() {
+        return uuid;
     }
 
-    public void addContacts(ContactsType type, String text) {
-        contacts.put(type, text);
+    public String getContacts(ContactsType type) {
+        return contacts.get(type);
     }
 
     public AbstractSection getSection(SectionType type) {
         return sections.get(type);
     }
 
-    public void addSecton(SectionType type, AbstractSection section) {
-        sections.put(type, section);
+    public void addContacts(ContactsType type, String value) {
+        contacts.put(type, value);
     }
 
-    public String getUuid() {
-        return uuid;
+    public void addSection(SectionType type, AbstractSection section) {
+        sections.put(type, section);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Resume resume = (Resume) o;
-        return Objects.equals(uuid, resume.uuid) &&
-                Objects.equals(fullName, resume.fullName) &&
-                Objects.equals(contacts, resume.contacts) &&
-                Objects.equals(sections, resume.sections);
+
+        if (!uuid.equals(resume.uuid)) return false;
+        return fullName.equals(resume.fullName);
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, fullName, contacts, sections);
+        int result = uuid.hashCode();
+        result = 31 * result + fullName.hashCode();
+        return result;
     }
 
     @Override

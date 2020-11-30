@@ -1,39 +1,46 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSectionType extends AbstractSection {
-    private final List<String> text;
+public class ListSectionType extends AbstractSection implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-    public ListSectionType(List<String> text) {
-        Objects.requireNonNull(text, "text must not be null");
-        this.text = text;
+    private final List<String> items;
+
+    public ListSectionType(String... items) {
+        this(Arrays.asList(items));
     }
 
-    public List<String> getText() {
-        return text;
+    public ListSectionType(List<String> items) {
+        Objects.requireNonNull(items, "items must not be null");
+        this.items = items;
     }
 
-    public void addVault(String text) {
-        this.text.add(text);
+    public List<String> getItems() {
+        return items;
     }
 
     @Override
     public String toString() {
-        return "" + text;
+        return items.toString();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         ListSectionType that = (ListSectionType) o;
-        return Objects.equals(text, that.text);
+
+        return items.equals(that.items);
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(text);
+        return items.hashCode();
     }
 }
