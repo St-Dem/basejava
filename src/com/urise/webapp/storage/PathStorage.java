@@ -2,7 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.serialize.Serialize;
+import com.urise.webapp.storage.serialize.StreamSerializer;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -12,20 +12,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class ObjectStreamPathStorage extends AbstractStorage<Path> {
+public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
-    private final Serialize serialize;
+    private final StreamSerializer streamSerializer;
 
     protected void doWrite(Resume r, OutputStream os) throws IOException {
-        serialize.doWrite(r, os);
+        streamSerializer.doWrite(r, os);
     }
 
     protected Resume doRead(InputStream is) throws IOException {
-        return serialize.doRead(is);
+        return streamSerializer.doRead(is);
     }
 
-    protected ObjectStreamPathStorage(String dir, Serialize serialize) {
-        this.serialize = serialize;
+    protected PathStorage(String dir, StreamSerializer streamSerializer) {
+        this.streamSerializer = streamSerializer;
         directory = Paths.get(dir);
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
@@ -44,13 +44,11 @@ public class ObjectStreamPathStorage extends AbstractStorage<Path> {
 
     @Override
     public int size() {
-
         try {
             return (int) Files.list(directory).count();
         } catch (Exception e) {
             throw new StorageException("File not found", null);
         }
-
     }
 
     @Override
