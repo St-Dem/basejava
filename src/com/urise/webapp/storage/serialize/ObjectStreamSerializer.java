@@ -5,7 +5,7 @@ import com.urise.webapp.model.Resume;
 
 import java.io.*;
 
-public class ObjectSerialize implements Serialize {
+public class ObjectStreamSerializer implements StreamSerializer {
 
     @Override
     public void doWrite(Resume r, OutputStream os) {
