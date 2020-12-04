@@ -34,7 +34,7 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        return (int) Arrays.stream(Objects.requireNonNull(directory.list(), "Directory read error")).count();
+        return (int) getStreamFile().count();
     }
 
     @Override
@@ -88,6 +88,11 @@ public class FileStorage extends AbstractStorage<File> {
     }
 
     private Stream<File> getStreamFile() {
-        return Arrays.stream(Objects.requireNonNull(directory.listFiles(), "Directory read error"));
+        File[] files = directory.listFiles();
+        if (files == null) {
+            throw new StorageException("Directory read error");
+        } else {
+            return Arrays.stream(files);
+        }
     }
 }
