@@ -8,7 +8,10 @@ import java.util.Objects;
 public class ListSectionType extends AbstractSection implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final List<String> items;
+    private  List<String> items;
+
+    public ListSectionType() {
+    }
 
     public ListSectionType(String... items) {
         this(Arrays.asList(items));

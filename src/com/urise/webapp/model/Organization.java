@@ -1,16 +1,22 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name;
     private String url;
-    private final List<PositionInTime> positionInTime;
+    private  List<PositionInTime> positionInTime;
+
+    public Organization() {
+    }
 
     public Organization(String name, String url, List<PositionInTime> positionInTime) {
         Objects.requireNonNull(name, "Organization mast have name");
@@ -28,6 +34,9 @@ public class Organization implements Serializable {
         private String position;
         private String text;
 
+        public PositionInTime() {
+        }
+
         public PositionInTime(LocalDate dateStart, LocalDate dateEnd, String position, String text) {
             Objects.requireNonNull(dateStart, "You work a certain time");
             Objects.requireNonNull(text, "Please enter someText");
@@ -36,6 +45,22 @@ public class Organization implements Serializable {
             this.dateEnd = dateEnd;
             this.position = position;
             this.text = text;
+        }
+
+        public LocalDate getDateStart() {
+            return dateStart;
+        }
+
+        public LocalDate getDateEnd() {
+            return dateEnd;
+        }
+
+        public String getPosition() {
+            return position;
+        }
+
+        public String getText() {
+            return text;
         }
 
         @Override

@@ -6,7 +6,10 @@ import java.util.Objects;
 public class TextSectionType extends AbstractSection implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final String text;
+    private String text;
+
+    public TextSectionType() {
+    }
 
     public TextSectionType(String text) {
         Objects.requireNonNull(text, "text must not be null");
