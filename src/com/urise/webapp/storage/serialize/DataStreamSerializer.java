@@ -31,26 +31,18 @@ public class DataStreamSerializer implements StreamSerializer {
 
                 dos.writeUTF(sectionType.toString());
                 switch (sectionType) {
-                    case PERSONAL:
-                    case OBJECTIVE:
-                        dos.writeUTF(abstractSection.toString());
-                        break;
-                    case ACHIEVEMENT:
-                    case QUALIFICATIONS:
-                        writeCollection(dos, ((ListSectionType) abstractSection).getItems(), dos::writeUTF);
-                        break;
-                    case EXPERIENCE:
-                    case EDUCATION:
-                        writeCollection(dos, ((OrganizationsSectionType) abstractSection).getOrganizations(), organization -> {
-                            dos.writeUTF(organization.getName());
-                            dos.writeUTF(organization.getUrl());
-                            writeCollection(dos, organization.getPositionInTime(), positionInTime -> {
-                                dos.writeUTF(getDate(positionInTime.getDateStart()));
-                                dos.writeUTF(getDate(positionInTime.getDateEnd()));
-                                dos.writeUTF(positionInTime.getPosition());
-                                dos.writeUTF(positionInTime.getText());
-                            });
+                    case PERSONAL, OBJECTIVE -> dos.writeUTF(abstractSection.toString());
+                    case ACHIEVEMENT, QUALIFICATIONS -> writeCollection(dos, ((ListSectionType) abstractSection).getItems(), dos::writeUTF);
+                    case EXPERIENCE, EDUCATION -> writeCollection(dos, ((OrganizationsSectionType) abstractSection).getOrganizations(), organization -> {
+                        dos.writeUTF(organization.getName());
+                        dos.writeUTF(organization.getUrl());
+                        writeCollection(dos, organization.getPositionInTime(), positionInTime -> {
+                            dos.writeUTF(getDate(positionInTime.getDateStart()));
+                            dos.writeUTF(getDate(positionInTime.getDateEnd()));
+                            dos.writeUTF(positionInTime.getPosition());
+                            dos.writeUTF(positionInTime.getText());
                         });
+                    });
                 }
             });
         } catch (IOException e) {
@@ -88,7 +80,6 @@ public class DataStreamSerializer implements StreamSerializer {
     interface listReader<T> {
         T read() throws IOException;
     }
-
     private String getDate(LocalDate localDate) {
         return localDate.getYear() + "-" + (localDate.getMonthValue() < 10 ? "0" + localDate.getMonthValue() : localDate.getMonthValue()) + "-01";
     }
