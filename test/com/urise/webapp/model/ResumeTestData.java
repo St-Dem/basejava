@@ -1,5 +1,7 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.DateUtil;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,7 +100,7 @@ public class ResumeTestData {
         Organization javaOnlineProjects = new Organization("Java Online Projects",
                 "https://javaops.ru/", new ArrayList<>(Collections.singletonList(
                 new Organization.PositionInTime(LocalDate.of(2013, 10, 1),
-                        LocalDate.now(), "Автор проекта.", "Создание, " +
+                        DateUtil.NOW, "Автор проекта.", "Создание, " +
                         "организация и проведение Java онлайн проектов и стажировок."))));
         workOrganizations.add(javaOnlineProjects);
 
@@ -113,7 +115,7 @@ public class ResumeTestData {
         workOrganizations.add(wrike);
 
 
-        Organization rITCenter = new Organization("RIT Center", "", new ArrayList<>
+        Organization rITCenter = new Organization("RIT Center", null, new ArrayList<>
                 (Collections.singletonList(new Organization.PositionInTime(
                         LocalDate.of(2012, 4, 1),
                         LocalDate.of(2014, 10, 1),

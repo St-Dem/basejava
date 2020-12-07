@@ -40,7 +40,7 @@ public class DataStreamSerializer implements StreamSerializer {
                             dos.writeUTF(getDate(positionInTime.getDateStart()));
                             dos.writeUTF(getDate(positionInTime.getDateEnd()));
                             dos.writeUTF(positionInTime.getPosition());
-                            dos.writeUTF(positionInTime.getText());
+                            dos.writeUTF(positionInTime.getDescription());
                         });
                     });
                 }
@@ -80,6 +80,7 @@ public class DataStreamSerializer implements StreamSerializer {
     interface listReader<T> {
         T read() throws IOException;
     }
+
     private String getDate(LocalDate localDate) {
         return localDate.getYear() + "-" + (localDate.getMonthValue() < 10 ? "0" + localDate.getMonthValue() : localDate.getMonthValue()) + "-01";
     }
