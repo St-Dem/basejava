@@ -1,8 +1,9 @@
 package com.urise.webapp.util;
 
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.time.LocalDate;
 
-public class LocalDateAdapter {
+public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
 
     public LocalDate unmarshal(String str) throws Exception {
         return LocalDate.parse(str);
