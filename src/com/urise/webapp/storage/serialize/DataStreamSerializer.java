@@ -34,8 +34,8 @@ public class DataStreamSerializer implements StreamSerializer {
                     case PERSONAL, OBJECTIVE -> dos.writeUTF(abstractSection.toString());
                     case ACHIEVEMENT, QUALIFICATIONS -> writeCollection(dos, ((ListSectionType) abstractSection).getItems(), dos::writeUTF);
                     case EXPERIENCE, EDUCATION -> writeCollection(dos, ((OrganizationsSectionType) abstractSection).getOrganizations(), organization -> {
-                        dos.writeUTF(organization.getName());
-                        dos.writeUTF(organization.getUrl());
+                        dos.writeUTF(organization.getLink().getName());
+                        dos.writeUTF(organization.getLink().getUrl());
                         writeCollection(dos, organization.getPositionInTime(), positionInTime -> {
                             dos.writeUTF(getDate(positionInTime.getDateStart()));
                             dos.writeUTF(getDate(positionInTime.getDateEnd()));
