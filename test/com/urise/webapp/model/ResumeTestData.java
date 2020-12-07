@@ -224,6 +224,9 @@ public class ResumeTestData {
                         LocalDate.of(1987, 6, 1), "\tЗакончил с отличием"))));
         educationOrganization.add(zft);
         resume.addSection(SectionType.EDUCATION, new OrganizationsSectionType(educationOrganization));
+
+        educationOrganization.add(new Organization("test1", new Organization.PositionInTime(DateUtil.NOW, DateUtil.NOW, "test1")));
+        educationOrganization.add(new Organization("test2", (String) null, new Organization.PositionInTime(DateUtil.NOW, DateUtil.NOW, "test2", null)));
     }
 
     public static void printContacts(Resume resume) {
