@@ -35,6 +35,10 @@ public class Organization implements Serializable {
         this(name, url, Arrays.asList(positionInTime));
     }
 
+    public Organization(String name, List<PositionInTime> positionInTime) {
+        this(name, null, positionInTime);
+    }
+
     public Organization(String name, String url, List<PositionInTime> positionInTime) {
         Objects.requireNonNull(name, "Organization mast have name");
 
