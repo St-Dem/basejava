@@ -20,8 +20,8 @@ import static com.urise.webapp.util.DateUtil.of;
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String name;
-    private String url;
+    public final static String NULL_HOLDER = "";
+    private Link link;
     private List<PositionInTime> positionInTime = new ArrayList<>();
 
     public Organization() {
@@ -41,9 +41,7 @@ public class Organization implements Serializable {
 
     public Organization(String name, String url, List<PositionInTime> positionInTime) {
         Objects.requireNonNull(name, "Organization mast have name");
-
-        this.name = name;
-        this.url = url == null ? "" : url;
+        this.link = new Link(name, url);
         this.positionInTime = positionInTime;
     }
 
@@ -81,7 +79,7 @@ public class Organization implements Serializable {
             this.dateStart = dateStart;
             this.dateEnd = dateEnd;
             this.position = position;
-            this.description = description == null ? "" : description;
+            this.description = description == null ? NULL_HOLDER : description;
         }
 
         public LocalDate getDateStart() {
@@ -127,13 +125,12 @@ public class Organization implements Serializable {
         }
     }
 
-
-    public String getName() {
-        return name;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public String getUrl() {
-        return url;
+    public Link getLink() {
+        return link;
     }
 
     public List<PositionInTime> getPositionInTime() {
@@ -145,21 +142,19 @@ public class Organization implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        return name.equals(that.name) &&
-                Objects.equals(url, that.url) &&
+        return link.equals(that.link) &&
                 positionInTime.equals(that.positionInTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, url, positionInTime);
+        return Objects.hash(link, positionInTime);
     }
 
     @Override
     public String toString() {
         return "Organization{" +
-                "name='" + name + '\'' +
-                ", url='" + url + '\'' +
+                "link=" + link +
                 ", positionInTime=" + positionInTime +
                 '}';
     }
