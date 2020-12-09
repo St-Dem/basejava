@@ -1,10 +1,10 @@
 package com.urise.webapp;
 
 public class Deadlock {
-    public static void main(String[] args) {
-        Thread thread1 = new Thread(new Deadlock1());
-        Thread thread2 = new Thread(new Deadlock2());
+    static Thread thread1 = new Thread(new Deadlock1());
+    static Thread thread2 = new Thread(new Deadlock2());
 
+    public static void main(String[] args) {
         thread1.start();
         thread2.start();
     }
@@ -14,7 +14,7 @@ public class Deadlock {
         @Override
         public void run() {
             try {
-                Thread.currentThread().join();
+                thread2.join();
                 System.out.println("Deadlock1 is finished");
             } catch (InterruptedException e) {
                 System.out.println("Deadlock1 was interapted");
@@ -28,7 +28,7 @@ public class Deadlock {
         @Override
         public void run() {
             try {
-                Thread.currentThread().join();
+                thread1.join();
                 System.out.println("Deadlock2 is finished");
             } catch (InterruptedException e) {
                 System.out.println("Deadlock2 was interapted");
