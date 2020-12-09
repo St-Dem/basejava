@@ -1,6 +1,5 @@
 package com.urise.webapp.storage.serialize;
 
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.*;
 
 import java.io.*;
@@ -45,8 +44,6 @@ public class DataStreamSerializer implements StreamSerializer {
                     });
                 }
             });
-        } catch (IOException e) {
-            throw new StorageException("Directory read error");
         }
     }
 
