@@ -35,12 +35,12 @@ public class MainSteams {
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
         Stream<Integer> stream = integers.stream();
-        if (integers.size() > 0) {
+        if (integers.size() > 1) {
             return stream.reduce(Integer::sum).get() % 2 == 1
                     ? stream.filter(x -> x % 2 == 0).collect(Collectors.toList())
                     : stream.filter(x -> x % 2 == 1).collect(Collectors.toList());
         }
-        return new ArrayList<>();
+        return integers;
     }
 
     private static void printList(List<Integer> list) {
