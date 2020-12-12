@@ -34,13 +34,15 @@ public class MainSteams {
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
         if (integers.size() > 0) {
-            return integers.stream().reduce(Integer::sum).get() % 2 == 1 ? integers.stream().filter(x -> x % 2 == 0).collect(Collectors.toList()) : integers.stream().filter(x -> x % 2 == 1).collect(Collectors.toList());
+            return integers.stream().reduce(Integer::sum).get() % 2 == 1
+                    ? integers.stream().filter(x -> x % 2 == 0).collect(Collectors.toList())
+                    : integers.stream().filter(x -> x % 2 == 1).collect(Collectors.toList());
         }
         return new ArrayList<>();
     }
 
-    private static void printList (List<Integer> list){
-        for (Object r : oddOrEven(list)){
+    private static void printList(List<Integer> list) {
+        for (Object r : oddOrEven(list)) {
             System.out.print(r + " ");
         }
         System.out.println();
