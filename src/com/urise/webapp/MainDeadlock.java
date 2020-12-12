@@ -1,6 +1,6 @@
 package com.urise.webapp;
 
-public class Deadlock {
+public class MainDeadlock {
     public static void main(String[] args) {
         int one = 1;
         String two = "Russia";
