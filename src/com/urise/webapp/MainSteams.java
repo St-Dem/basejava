@@ -10,14 +10,10 @@ public class MainSteams {
     private static Stream<Integer> stream;
 
     public static void main(String[] args) {
-        int[] mass1 = {1, 2, 3, 3, 2, 3};
-        int[] mass2 = {9, 8};
-        int[] mass3 = new int[10];
-
         System.out.println("Now minValue");
-        printArray(mass1);
-        printArray(mass2);
-        printArray(mass3);
+        printArray(new int[]{1, 2, 3, 3, 2, 3});
+        printArray(new int[]{9, 8});
+        printArray(new int[10]);
         System.out.println();
 
         System.out.println("Now oddOrEven");
