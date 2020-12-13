@@ -1,6 +1,5 @@
 package com.urise.webapp;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,11 +16,11 @@ public class MainSteams {
         System.out.println();
 
         System.out.println("Now oddOrEven");
-        printList(getArraylist(1, 2, 3, 3, 2, 3));
-        printList(getArraylist(8, 9));
-        printList(getArraylist(3, 4, 7, 2, 1));
-        printList(new ArrayList<>());
-        printList(getArraylist(3, 4, 2, 1));
+        printList(1, 2, 3, 3, 2, 3);
+        printList(8, 9);
+        printList(3, 4, 7, 2, 1);
+        printList();
+        printList(3, 4, 2, 1);
     }
 
     private static int minValue(int[] values) {
@@ -54,8 +53,8 @@ public class MainSteams {
         return Arrays.asList(a);
     }
 
-    private static void printList(List<Integer> list) {
-        for (Integer r : oddOrEven(list)) {
+    private static void printList(Integer... a) {
+        for (Integer r : oddOrEven(getArraylist(a))) {
             System.out.print(r + " ");
         }
         System.out.println();
