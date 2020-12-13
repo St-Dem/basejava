@@ -21,11 +21,11 @@ public class MainSteams {
         System.out.println();
 
         System.out.println("Now oddOrEven");
-        List<Integer> arr1 = new ArrayList<>(Arrays.asList(1, 2, 3, 3, 2, 3));
-        List<Integer> arr2 = new ArrayList<>(Arrays.asList(8, 9));
-        List<Integer> arr3 = new ArrayList<>(Arrays.asList(3, 4, 7, 2, 1));
+        List<Integer> arr1 = getArrayList(1, 2, 3, 3, 2, 3);
+        List<Integer> arr2 = getArrayList(8, 9);
+        List<Integer> arr3 = getArrayList(3, 4, 7, 2, 1);
         List<Integer> arr4 = new ArrayList<>();
-        List<Integer> arr5 = new ArrayList<>(Arrays.asList(3, 4, 2, 1));
+        List<Integer> arr5 = getArrayList(3, 4, 2, 1);
 
 
         printList(arr1);
@@ -35,15 +35,15 @@ public class MainSteams {
         printList(arr5);
     }
 
-    private static void printArray(int[] mass1) {
-        System.out.println(minValue(mass1));
-    }
-
     private static int minValue(int[] values) {
         return Arrays.stream(values)
                 .distinct()
                 .sorted()
                 .reduce(0, (a, b) -> (a * 10) + b);
+    }
+
+    private static void printArray(int[] mass1) {
+        System.out.println(minValue(mass1));
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
@@ -59,6 +59,10 @@ public class MainSteams {
                 : stream
                 .filter(x -> x % 2 == 1)
                 .collect(Collectors.toList());
+    }
+
+    private static List<Integer> getArrayList(Integer... a) {
+        return Arrays.asList(a);
     }
 
     private static void printList(List<Integer> list) {
