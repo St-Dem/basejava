@@ -3,10 +3,11 @@ package com.urise.webapp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.OptionalInt;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MainSteams {
+    private static Stream<Integer> stream;
 
     public static void main(String[] args) {
         int[] mass1 = {1, 2, 3, 3, 2, 3};
@@ -39,22 +40,29 @@ public class MainSteams {
     }
 
     private static int minValue(int[] values) {
-        OptionalInt reduce = Arrays.stream(values).sorted().distinct().reduce((a, b) -> (a * 10) + b);
-        return reduce.isPresent() ? reduce.getAsInt() : 0;
-
+        return Arrays.stream(values)
+                .distinct()
+                .sorted()
+                .reduce(0, (a, b) -> (a * 10) + b);
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-        if (integers.size() > 1) {
-            return integers.stream().reduce(Integer::sum).get() % 2 == 1
-                    ? integers.stream().filter(x -> x % 2 == 0).collect(Collectors.toList())
-                    : integers.stream().filter(x -> x % 2 == 1).collect(Collectors.toList());
-        }
-        return integers;
+        stream = integers.stream()
+                .parallel();
+
+        return integers.stream()
+                .parallel()
+                .reduce(0, Integer::sum) % 2 == 1
+                ? stream
+                .filter(x -> x % 2 == 0)
+                .collect(Collectors.toList())
+                : stream
+                .filter(x -> x % 2 == 1)
+                .collect(Collectors.toList());
     }
 
     private static void printList(List<Integer> list) {
-        for (Object r : oddOrEven(list)) {
+        for (Integer r : oddOrEven(list)) {
             System.out.print(r + " ");
         }
         System.out.println();
