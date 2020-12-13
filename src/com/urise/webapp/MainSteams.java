@@ -30,7 +30,7 @@ public class MainSteams {
                 .reduce(0, (a, b) -> (a * 10) + b);
     }
 
-    private static void printArray(int ...values) {
+    private static void printArray(int... values) {
         System.out.println(minValue(values));
     }
 
@@ -49,12 +49,12 @@ public class MainSteams {
                 .collect(Collectors.toList());
     }
 
-    private static List<Integer> getArraylist(Integer... values) {
-        return Arrays.asList(values);
+    private static List<Integer> getArraylist(Integer... integers) {
+        return Arrays.asList(integers);
     }
 
-    private static void printList(Integer... values) {
-        for (Integer r : oddOrEven(getArraylist(values))) {
+    private static void printList(Integer... integers) {
+        for (Integer r : oddOrEven(getArraylist(integers))) {
             System.out.print(r + " ");
         }
         System.out.println();
