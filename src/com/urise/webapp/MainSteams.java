@@ -10,9 +10,9 @@ public class MainSteams {
 
     public static void main(String[] args) {
         System.out.println("Now minValue");
-        printArray(new int[]{1, 2, 3, 3, 2, 3});
-        printArray(new int[]{9, 8});
-        printArray(new int[10]);
+        printArray(1, 2, 3, 3, 2, 3);
+        printArray(9, 8);
+        printArray();
         System.out.println();
 
         System.out.println("Now oddOrEven");
@@ -30,8 +30,8 @@ public class MainSteams {
                 .reduce(0, (a, b) -> (a * 10) + b);
     }
 
-    private static void printArray(int[] mass1) {
-        System.out.println(minValue(mass1));
+    private static void printArray(int ...values) {
+        System.out.println(minValue(values));
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
@@ -49,12 +49,12 @@ public class MainSteams {
                 .collect(Collectors.toList());
     }
 
-    private static List<Integer> getArraylist(Integer... a) {
-        return Arrays.asList(a);
+    private static List<Integer> getArraylist(Integer... values) {
+        return Arrays.asList(values);
     }
 
-    private static void printList(Integer... a) {
-        for (Integer r : oddOrEven(getArraylist(a))) {
+    private static void printList(Integer... values) {
+        for (Integer r : oddOrEven(getArraylist(values))) {
             System.out.print(r + " ");
         }
         System.out.println();
