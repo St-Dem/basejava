@@ -21,18 +21,12 @@ public class MainSteams {
         System.out.println();
 
         System.out.println("Now oddOrEven");
-        List<Integer> arr1 = getArraylist(1, 2, 3, 3, 2, 3);
-        List<Integer> arr2 = getArraylist(8, 9);
-        List<Integer> arr3 = getArraylist(3, 4, 7, 2, 1);
-        List<Integer> arr4 = new ArrayList<>();
-        List<Integer> arr5 = getArraylist(3, 4, 2, 1);
 
-
-        printList(arr1);
-        printList(arr2);
-        printList(arr3);
-        printList(arr4);
-        printList(arr5);
+        printList(getArraylist(1, 2, 3, 3, 2, 3));
+        printList(getArraylist(8, 9));
+        printList(getArraylist(3, 4, 7, 2, 1));
+        printList(new ArrayList<>());
+        printList(getArraylist(3, 4, 2, 1));
     }
 
     private static int minValue(int[] values) {
