@@ -21,11 +21,11 @@ public class MainSteams {
         System.out.println();
 
         System.out.println("Now oddOrEven");
-        List<Integer> arr1 = getArrayList(1, 2, 3, 3, 2, 3);
-        List<Integer> arr2 = getArrayList(8, 9);
-        List<Integer> arr3 = getArrayList(3, 4, 7, 2, 1);
+        List<Integer> arr1 = getArraylist(1, 2, 3, 3, 2, 3);
+        List<Integer> arr2 = getArraylist(8, 9);
+        List<Integer> arr3 = getArraylist(3, 4, 7, 2, 1);
         List<Integer> arr4 = new ArrayList<>();
-        List<Integer> arr5 = getArrayList(3, 4, 2, 1);
+        List<Integer> arr5 = getArraylist(3, 4, 2, 1);
 
 
         printList(arr1);
@@ -61,7 +61,7 @@ public class MainSteams {
                 .collect(Collectors.toList());
     }
 
-    private static List<Integer> getArrayList(Integer... a) {
+    private static List<Integer> getArraylist(Integer... a) {
         return Arrays.asList(a);
     }
 
