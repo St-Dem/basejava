@@ -21,7 +21,6 @@ public class MainSteams {
         System.out.println();
 
         System.out.println("Now oddOrEven");
-
         printList(getArraylist(1, 2, 3, 3, 2, 3));
         printList(getArraylist(8, 9));
         printList(getArraylist(3, 4, 7, 2, 1));
