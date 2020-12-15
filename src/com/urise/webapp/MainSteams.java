@@ -33,7 +33,7 @@ public class MainSteams {
         printList(arr3);
         printList(arr4);
     }
-
+   
     interface Filter<T> {
         Predicate<? super java.lang.Integer> filtration();
     }
@@ -50,17 +50,12 @@ public class MainSteams {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
+        Integer summ = integers.stream()
+                .parallel()
+                .reduce(0, Integer::sum);
         return integers.stream()
                 .parallel()
-                .reduce(0, Integer::sum) % 2 == 1
-                ? getFilteringList(integers, () -> x -> x % 2 == 0)
-                : getFilteringList(integers, () -> x -> x % 2 == 1);
-    }
-
-    private static List<Integer> getFilteringList(List<Integer> integers, Filter<Integer> filter) {
-        return integers.stream()
-                .parallel()
-                .filter(filter.filtration())
+                .filter(summ % 2 == 1 ? x -> x % 2 == 0 : x -> x % 2 == 1)
                 .collect(Collectors.toList());
     }
 
