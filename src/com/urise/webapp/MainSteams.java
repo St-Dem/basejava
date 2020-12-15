@@ -50,12 +50,12 @@ public class MainSteams {
     }
 
     private static List<Integer> oddOrEven(List<Integer> integers) {
-        Integer summ = integers.stream()
+        Integer sum = integers.stream()
                 .parallel()
                 .reduce(0, Integer::sum);
         return integers.stream()
                 .parallel()
-                .filter(summ % 2 == 1 ? x -> x % 2 == 0 : x -> x % 2 == 1)
+                .filter(sum % 2 == 1 ? x -> x % 2 == 0 : x -> x % 2 == 1)
                 .collect(Collectors.toList());
     }
 
