@@ -33,7 +33,7 @@ public class MainSteams {
         printList(arr3);
         printList(arr4);
     }
-   
+
     interface Filter<T> {
         Predicate<? super java.lang.Integer> filtration();
     }
@@ -55,7 +55,7 @@ public class MainSteams {
                 .reduce(0, Integer::sum);
         return integers.stream()
                 .parallel()
-                .filter(sum % 2 == 1 ? x -> x % 2 == 0 : x -> x % 2 == 1)
+                .filter(x -> x % 2 == (sum % 2 == 1 ? 0 : 1))
                 .collect(Collectors.toList());
     }
 
