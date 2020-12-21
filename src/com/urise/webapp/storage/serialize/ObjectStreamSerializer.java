@@ -21,7 +21,7 @@ public class ObjectStreamSerializer implements StreamSerializer {
         try (ObjectInputStream ois = new ObjectInputStream(is)) {
             return (Resume) ois.readObject();
         } catch (ClassNotFoundException | IOException e) {
-            throw new StorageException("File read error", null);
+            throw new StorageException("File read error");
         }
     }
 }
