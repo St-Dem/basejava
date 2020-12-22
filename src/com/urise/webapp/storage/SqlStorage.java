@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SqlStorage implements Storage {
@@ -19,7 +20,7 @@ public class SqlStorage implements Storage {
 
     @Override
     public void clear() {
-        connectionHelper.doExecute("DELETE FROM resume", (ConnectionHelper.VoidExecutor<PreparedStatement>) PreparedStatement::execute);
+        connectionHelper.doExecute("DELETE FROM resume", PreparedStatement::execute);
     }
 
     @Override
@@ -38,10 +39,12 @@ public class SqlStorage implements Storage {
     public void update(Resume r) {
         connectionHelper.doExecute("UPDATE resume SET full_name = ? WHERE uuid = ?", ps -> {
             ps.setString(1, r.getFullName());
-            ps.setString(2, r.getUuid());
+            String uuid = r.getUuid();
+            ps.setString(2, uuid);
             if (ps.executeUpdate() == 0) {
-                throw new NotExistStorageException(r.getUuid());
+                throw new NotExistStorageException(uuid);
             }
+            return null;
         });
     }
 
@@ -51,6 +54,7 @@ public class SqlStorage implements Storage {
             ps.setString(1, r.getUuid());
             ps.setString(2, r.getFullName());
             ps.execute();
+            return null;
         });
     }
 
@@ -61,6 +65,7 @@ public class SqlStorage implements Storage {
             if (ps.executeUpdate() == 0) {
                 throw new NotExistStorageException(uuid);
             }
+            return null;
         });
     }
 
@@ -70,8 +75,9 @@ public class SqlStorage implements Storage {
         return connectionHelper.doExecute("SELECT * FROM resume", ps -> {
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {
-                arrayList.add(new Resume(resultSet.getString("uuid").trim(), resultSet.getString("full_name").trim()));
+                arrayList.add(new Resume(resultSet.getString("uuid"), resultSet.getString("full_name")));
             }
+            Collections.sort(arrayList);
             return arrayList;
         });
     }
@@ -80,9 +86,7 @@ public class SqlStorage implements Storage {
     public int size() {
         return connectionHelper.doExecute("SELECT COUNT(*)  FROM resume", ps -> {
             ResultSet resultSet = ps.executeQuery();
-            if (!resultSet.next()) {
-                throw new NotExistStorageException("Tables not found");
-            }
+            resultSet.next();
             return resultSet.getInt("count");
         });
     }
