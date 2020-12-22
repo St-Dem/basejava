@@ -22,7 +22,7 @@ public class ConnectionHelper {
         try (PreparedStatement ps = getPreparedStatement(sqlConnection)) {
             return executor.execute(ps);
         } catch (Exception e) {
-            throw  choiceException(e);
+            throw  getStorageException(e);
         }
     }
 
@@ -30,7 +30,7 @@ public class ConnectionHelper {
         return connectionFactory.getConnection().prepareStatement(sqlConnection);
     }
 
-    private StorageException choiceException(Exception e) {
+    private StorageException getStorageException(Exception e) {
         if (e instanceof SQLException) {
             System.out.println(e);
             if ("23505".equals(((SQLException) e).getSQLState())) {
