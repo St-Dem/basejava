@@ -3,7 +3,6 @@ package com.urise.webapp.sql;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -23,17 +22,15 @@ public class ConnectionHelper {
     }
 
     public void doExecute(String sqlConnection, VoidExecutor<PreparedStatement> voidExecutor) {
-        try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlConnection)) {
+        try (PreparedStatement ps = getConnection(sqlConnection)) {
             voidExecutor.execute(ps);
         } catch (Exception e) {
-          exceptionHandler(e);
+            exceptionHandler(e);
         }
     }
 
     public <T> T doExecute(String sqlConnection, Executor<T> executor) {
-        try (Connection connection = connectionFactory.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sqlConnection)) {
+        try (PreparedStatement ps = getConnection(sqlConnection)) {
             return executor.execute(ps);
         } catch (Exception e) {
             exceptionHandler(e);
@@ -41,11 +38,15 @@ public class ConnectionHelper {
         }
     }
 
-    private void exceptionHandler(Exception e){
+    private PreparedStatement getConnection(String sqlConnection) throws SQLException {
+        return connectionFactory.getConnection().prepareStatement(sqlConnection);
+    }
+
+    private void exceptionHandler(Exception e) {
         if (e instanceof SQLException) {
             throw new ExistStorageException("Resume exist");
-        }else {
-           throw new NotExistStorageException("Resume not exist");
+        } else {
+            throw new NotExistStorageException("Resume not exist");
         }
     }
 }
