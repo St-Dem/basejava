@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SqlStorage implements Storage {
@@ -71,14 +70,13 @@ public class SqlStorage implements Storage {
 
     @Override
     public List<Resume> getAllSorted() {
-        List<Resume> arrayList = new ArrayList<>();
-        return connectionHelper.doExecute("SELECT * FROM resume", ps -> {
+        return connectionHelper.doExecute("SELECT * FROM resume ORDER BY full_name, uuid", ps -> {
             ResultSet resultSet = ps.executeQuery();
+            List<Resume> resumes = new ArrayList<>();
             while (resultSet.next()) {
-                arrayList.add(new Resume(resultSet.getString("uuid"), resultSet.getString("full_name")));
+                resumes.add(new Resume(resultSet.getString("uuid"), resultSet.getString("full_name")));
             }
-            Collections.sort(arrayList);
-            return arrayList;
+            return resumes;
         });
     }
 
@@ -86,7 +84,7 @@ public class SqlStorage implements Storage {
     public int size() {
         return connectionHelper.doExecute("SELECT COUNT(*)  FROM resume", ps -> {
             ResultSet resultSet = ps.executeQuery();
-            return  resultSet.next() ? resultSet.getInt("count") : 0;
+            return resultSet.next() ? resultSet.getInt("count") : 0;
         });
     }
 }
