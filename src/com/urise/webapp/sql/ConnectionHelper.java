@@ -17,6 +17,8 @@ public class ConnectionHelper {
     public <T> T doExecute(String sqlConnection, Executor<T> executor) {
         try (PreparedStatement ps = getPreparedStatement(sqlConnection)) {
             return executor.execute(ps);
+        } catch (NotExistStorageException e) {
+            throw e;
         } catch (Exception e) {
             throw getStorageException(e);
         }
@@ -35,9 +37,6 @@ public class ConnectionHelper {
             if ("23505".equals(((SQLException) e).getSQLState())) {
                 return new ExistStorageException("Resume exist");
             }
-        }
-        if (e instanceof NotExistStorageException) {
-            return (StorageException) e;
         }
         return new StorageException(e);
     }
