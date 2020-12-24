@@ -30,9 +30,8 @@ public class ConnectionHelper {
     }
 
     private StorageException getStorageException(SQLException e) {
-        if ("23505".equals(e.getSQLState())) {
-            return new ExistStorageException("Resume exist", e);
-        }
-        return new StorageException(e);
+        return "23505".equals(e.getSQLState()) ?
+                new ExistStorageException("Resume exist", e) :
+                new StorageException(e);
     }
 }
