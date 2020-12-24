@@ -1,7 +1,6 @@
 package com.urise.webapp.sql;
 
 import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 
 import java.sql.PreparedStatement;
@@ -17,9 +16,7 @@ public class ConnectionHelper {
     public <T> T doExecute(String sqlConnection, Executor<T> executor) {
         try (PreparedStatement ps = getPreparedStatement(sqlConnection)) {
             return executor.execute(ps);
-        } catch (NotExistStorageException e) {
-            throw e;
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw getStorageException(e);
         }
     }
@@ -32,11 +29,9 @@ public class ConnectionHelper {
         return connectionFactory.getConnection().prepareStatement(sqlConnection);
     }
 
-    private StorageException getStorageException(Exception e) {
-        if (e instanceof SQLException) {
-            if ("23505".equals(((SQLException) e).getSQLState())) {
-                return new ExistStorageException("Resume exist");
-            }
+    private StorageException getStorageException(SQLException e) {
+        if ("23505".equals(e.getSQLState())) {
+            return new ExistStorageException("Resume exist", e);
         }
         return new StorageException(e);
     }
