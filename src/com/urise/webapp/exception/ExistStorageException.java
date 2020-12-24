@@ -6,6 +6,6 @@ public class ExistStorageException extends StorageException {
     }
 
     public ExistStorageException(String message, Exception e) {
-        super(message, null, e);
+        super(message, e);
     }
 }
