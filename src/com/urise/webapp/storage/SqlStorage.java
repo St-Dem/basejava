@@ -7,7 +7,7 @@ import com.urise.webapp.sql.ConnectionHelper;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -100,7 +100,7 @@ public class SqlStorage implements Storage {
 
                 ps -> {
                     ResultSet rs = ps.executeQuery();
-                    Map<String, Resume> resumeMap = new HashMap<>();
+                    Map<String, Resume> resumeMap = new LinkedHashMap<>();
 
                     while (rs.next()) {
                         String uuid = rs.getString("uuid");
