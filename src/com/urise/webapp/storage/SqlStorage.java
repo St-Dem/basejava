@@ -37,11 +37,9 @@ public class SqlStorage implements Storage {
                         throw new NotExistStorageException(uuid);
                     }
                     Resume r = new Resume(uuid, rs.getString("full_name"));
-
                     do {
                         addContacts(rs, r);
                     } while (rs.next());
-
                     return r;
                 });
     }
