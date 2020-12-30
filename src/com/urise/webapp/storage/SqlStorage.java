@@ -6,10 +6,7 @@ import com.urise.webapp.model.Resume;
 import com.urise.webapp.sql.ConnectionHelper;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SqlStorage implements Storage {
     ConnectionHelper connectionHelper;
@@ -119,7 +116,11 @@ public class SqlStorage implements Storage {
 
     private void insertContact(Resume r, Connection conn) throws SQLException {
         try (PreparedStatement ps = conn.prepareStatement("INSERT INTO contact (resume_uuid, type, value) VALUES (?,?,?)")) {
-            for (Map.Entry<ContactsType, String> e : r.getContacts().entrySet()) {
+            Set<Map.Entry<ContactsType, String>> entries = r.getContacts().entrySet();
+            if (entries.isEmpty()) {
+                return;
+            }
+            for (Map.Entry<ContactsType, String> e : entries) {
                 ps.setString(1, r.getUuid());
                 ps.setString(2, e.getKey().name());
                 ps.setString(3, e.getValue());
@@ -131,8 +132,8 @@ public class SqlStorage implements Storage {
 
     private void addContacts(ResultSet rs, Resume r) throws SQLException {
         String type = rs.getString("type");
-        String value = rs.getString("value");
-        if (type != null && value != null) {
+        if (type != null) {
+            String value = rs.getString("value");
             r.addContacts(ContactsType.valueOf(type), value);
         }
     }
