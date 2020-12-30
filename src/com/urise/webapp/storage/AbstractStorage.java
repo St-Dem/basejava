@@ -69,7 +69,7 @@ public abstract class AbstractStorage<SK> implements Storage {
         return searchKey;
     }
 
-    @Override
+
     public List<Resume> getAllSorted() {
         LOG.info("getAllSorted");
         List<Resume> list = doCopyAll();

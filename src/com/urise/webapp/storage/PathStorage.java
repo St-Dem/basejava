@@ -33,21 +33,21 @@ public class PathStorage extends AbstractStorage<Path> {
         }
     }
 
-    @Override
+
     public void clear() {
         try {
             Files.list(directory).forEach(this::doDelete);
         } catch (IOException e) {
-            throw new StorageException("Path delete error", null);
+            throw new StorageException("Path delete error");
         }
     }
 
-    @Override
+
     public int size() {
         try {
             return (int) Files.list(directory).count();
         } catch (Exception e) {
-            throw new StorageException("File not found", null);
+            throw new StorageException("File not found");
         }
     }
 
@@ -103,7 +103,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             return Files.list(directory).map(this::doGet).collect(Collectors.toList());
         } catch (Exception e) {
-            throw new StorageException("Directory read error", null);
+            throw new StorageException("Directory read error");
         }
     }
 }
