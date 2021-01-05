@@ -8,7 +8,7 @@ import java.util.Objects;
 public class ListSectionType extends AbstractSection implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private  List<String> items;
+    private List<String> items;
 
     public ListSectionType() {
     }
@@ -45,5 +45,13 @@ public class ListSectionType extends AbstractSection implements Serializable {
     @Override
     public int hashCode() {
         return items.hashCode();
+    }
+
+    public String toSQL() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String a : items) {
+            stringBuilder.append(a).append("\n");
+        }
+        return stringBuilder.toString();
     }
 }

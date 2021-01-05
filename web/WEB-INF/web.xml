@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -11,7 +10,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>resumeServlet</servlet-name>
-        <url-pattern>/resume</url-pattern>
+        <url-pattern>/resumes</url-pattern>
     </servlet-mapping>
 
 </web-app>
