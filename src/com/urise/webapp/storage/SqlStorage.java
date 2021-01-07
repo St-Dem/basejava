@@ -6,11 +6,17 @@ import com.urise.webapp.sql.ConnectionHelper;
 
 import java.sql.*;
 import java.util.*;
+import java.util.logging.Logger;
 
 public class SqlStorage implements Storage {
     ConnectionHelper connectionHelper;
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (Exception e) {
+            Logger.getLogger(AbstractStorage.class.getName()).info("SQL sexeption");
+        }
         connectionHelper = new ConnectionHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
 

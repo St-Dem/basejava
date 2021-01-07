@@ -30,3 +30,21 @@ create unique index contact_uuid_type_index
     on contact (id, resume_uuid, type);
 
 
+create table section
+(
+    id          serial not null
+        constraint section_pk
+            primary key,
+    type        text,
+    value       text,
+    resume_uuid char(36)
+        constraint section_resume_uuid__fk
+            references resume
+            on delete cascade
+);
+
+alter table section
+    owner to postgres;
+
+create unique index section_uuid_type_index
+    on section (id, type, value);
