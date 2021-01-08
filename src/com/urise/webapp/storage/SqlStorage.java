@@ -15,7 +15,7 @@ public class SqlStorage implements Storage {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (Exception e) {
-            Logger.getLogger(AbstractStorage.class.getName()).info("SQL sexeption");
+            Logger.getLogger(SqlStorage.class.getName()).info("SQL exception");
         }
         connectionHelper = new ConnectionHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
     }
