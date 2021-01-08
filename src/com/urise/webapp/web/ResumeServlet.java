@@ -4,7 +4,6 @@ import com.urise.webapp.Config;
 import com.urise.webapp.model.Resume;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,8 +13,7 @@ import java.util.List;
 public class ResumeServlet extends HttpServlet {
     public static List<Resume> all;
 
-    public void init(ServletConfig config) throws ServletException {
-        super.init();
+    public void init(ServletConfig config) {
         all = Config.get().getStorage().getAllSorted();
     }
 
@@ -31,19 +29,18 @@ public class ResumeServlet extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
 
         response.getWriter().write("<html><head>" +
-                "<title>писок резюме.</title>" + "" +
+                "<title>Список резюме.</title>" +
                 "<style> table {\n" +
                 "background: white; \n" +
                 "color: white; \n" +
                 "border-spacing: 1px; \n" +
-                "}\n" +
-                "td, th {\n" +
+                "}\n td, th {\n" +
                 "background: green; \n" +
                 "padding: 15px; \n" +
-                "}</style></head><body>" +
-                "<table><tr>" +
+                "}</style></head>" +
+                "<body><table><tr>" +
                 "<th><h3>uuid</h3></th>" +
-                "<th>full name</th>" +
+                "<th><h3>full name</h3></th>" +
                 "</tr>\n");
         for (Resume resume : all) {
             response.getWriter().write("<tr><td>" + resume.getUuid() + "</td>\n" +
