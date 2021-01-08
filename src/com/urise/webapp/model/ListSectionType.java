@@ -46,12 +46,4 @@ public class ListSectionType extends AbstractSection implements Serializable {
     public int hashCode() {
         return items.hashCode();
     }
-
-    public String toSQL() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String a : items) {
-            stringBuilder.append(a).append("\n");
-        }
-        return stringBuilder.toString();
-    }
 }

@@ -187,8 +187,8 @@ public class SqlStorage implements Storage {
 
     private String writeSection(SectionType sectionType, Map.Entry<SectionType, AbstractSection> e) {
         return switch (sectionType) {
-            case PERSONAL, OBJECTIVE -> String.valueOf(e.getValue());
-            case ACHIEVEMENT, QUALIFICATIONS -> ((ListSectionType) e.getValue()).toSQL();
+            case PERSONAL, OBJECTIVE -> ((TextSectionType) e.getValue()).getText();
+            case ACHIEVEMENT, QUALIFICATIONS -> String.join("\n", ((ListSectionType) e.getValue()).getItems());
             default -> "";
         };
     }
@@ -210,7 +210,7 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private <T> AbstractSection readSection(SectionType sectionType, String value) {
+    private AbstractSection readSection(SectionType sectionType, String value) {
         return switch (sectionType) {
             case PERSONAL, OBJECTIVE -> new TextSectionType(value);
             case ACHIEVEMENT, QUALIFICATIONS -> new ListSectionType(value.split("\n"));
