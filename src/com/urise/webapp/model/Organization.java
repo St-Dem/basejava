@@ -27,6 +27,11 @@ public class Organization implements Serializable {
     public Organization() {
     }
 
+    public Organization(Link link, PositionInTime ...positionInTime){
+        this.link = link;
+        this.positionInTime = Arrays.asList(positionInTime);
+    }
+
     public Organization(String name, PositionInTime... positionInTime) {
         this(name, null, Arrays.asList(positionInTime));
     }
@@ -123,6 +128,10 @@ public class Organization implements Serializable {
                     ", description='" + description + '\'' +
                     '}';
         }
+
+        public PositionInTime empty(){
+            return new PositionInTime(NOW, NOW, "");
+        }
     }
 
     public static long getSerialVersionUID() {
@@ -157,6 +166,10 @@ public class Organization implements Serializable {
                 "link=" + link +
                 ", positionInTime=" + positionInTime +
                 '}';
+    }
+
+    public Organization empty(){
+        return new Organization(new Link().empty(), new PositionInTime().empty());
     }
 }
 

@@ -49,7 +49,7 @@
                             </c:forEach>
                         </label></dd>
                     </dl>
-                    <%=sectionEntry.getKey() + " : " + ((OrganizationsSectionType) sectionEntry.getValue()).toHtml()%><br/>
+                    <%=sectionEntry.getKey() + " : " +  sectionEntry.getValue()%><br/>
                 </c:when>
                 <c:otherwise>
                     <dl>

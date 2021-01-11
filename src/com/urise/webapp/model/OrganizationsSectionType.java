@@ -1,11 +1,9 @@
 package com.urise.webapp.model;
 
-import com.urise.webapp.util.DateUtil;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,15 +47,6 @@ public class OrganizationsSectionType extends AbstractSection implements Seriali
     }
 
     public OrganizationsSectionType empty() {
-        List<Organization> organizations = new ArrayList<>();
-        organizations.add(new Organization("", "", new Organization.PositionInTime(DateUtil.NOW, DateUtil.NOW, "")));
-        return new OrganizationsSectionType(organizations);
-    }
-    public String toHtml(){
-        StringBuilder builder = new StringBuilder();
-        for (Organization organization : organizations) {
-            builder.append(organization).append("<br/>");
-        }
-        return builder.toString();
+        return new OrganizationsSectionType(Collections.singletonList(new Organization().empty()));
     }
 }

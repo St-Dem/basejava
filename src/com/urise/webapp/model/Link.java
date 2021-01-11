@@ -52,5 +52,9 @@ public class Link implements Serializable {
         result = 31 * result + (url != null ? url.hashCode() : 0);
         return result;
     }
+
+    public Link empty(){
+        return new Link("", "");
+    }
 }
 
