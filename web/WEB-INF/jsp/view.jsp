@@ -28,10 +28,10 @@
 
 <c:choose>
             <c:when test="${type == 'EXPERIENCE' || type == 'EDUCATION'}">
-                    <%=sectionEntry.getKey() + " : " + ((OrganizationsSectionType) sectionEntry.getValue()).toHtml()%><br/>
+                    <%=sectionEntry.getKey().getTitle() + " : " + ((OrganizationsSectionType) sectionEntry.getValue()).toHtml()%><br/>
             </c:when>
             <c:otherwise>
-           <%=sectionEntry.getKey() + " : " + sectionEntry.getValue() + "<br/>"%><br/>
+           <%=sectionEntry.getKey().getTitle() + " : " + sectionEntry.getValue() + "<br/>"%><br/>
             </c:otherwise>
 
             </c:choose>
