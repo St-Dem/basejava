@@ -40,4 +40,8 @@ public class TextSectionType extends AbstractSection implements Serializable {
     public int hashCode() {
         return text.hashCode();
     }
+
+    public TextSectionType empty(){
+        return new TextSectionType("");
+    }
 }

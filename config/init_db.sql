@@ -27,7 +27,7 @@ create table contact
 alter table contact
     owner to postgres;
 create unique index contact_uuid_type_index
-    on contact (id, resume_uuid, type);
+    on contact (resume_uuid, type);
 
 
 create table section
@@ -47,4 +47,4 @@ alter table section
     owner to postgres;
 
 create unique index section_uuid_type_index
-    on section (id, type, value);
+    on section (resume_uuid, type);

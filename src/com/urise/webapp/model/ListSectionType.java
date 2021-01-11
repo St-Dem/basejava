@@ -46,4 +46,8 @@ public class ListSectionType extends AbstractSection implements Serializable {
     public int hashCode() {
         return items.hashCode();
     }
+
+    public ListSectionType empty(){
+        return new ListSectionType("");
+    }
 }

@@ -1,6 +1,11 @@
 package com.urise.webapp.model;
 
+import com.urise.webapp.util.DateUtil;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ResumeTestData {
@@ -91,7 +96,7 @@ public class ResumeTestData {
         qualifications.add("Родной русский, английский \"upper intermediate\"");
         resume.addSection(SectionType.QUALIFICATIONS, new ListSectionType(qualifications));
 
-      /*  List<Organization> workOrganizations = new ArrayList<>();
+       List<Organization> workOrganizations = new ArrayList<>();
         Organization javaOnlineProjects = new Organization("Java Online Projects",
                 "https://javaops.ru/", new ArrayList<>(Collections.singletonList(
                 new Organization.PositionInTime(LocalDate.of(2013, 10, 1),
@@ -221,12 +226,12 @@ public class ResumeTestData {
         resume.addSection(SectionType.EDUCATION, new OrganizationsSectionType(educationOrganization));
 
         educationOrganization.add(new Organization("test1", new Organization.PositionInTime(DateUtil.NOW, DateUtil.NOW, "test1")));
-        educationOrganization.add(new Organization("test2", (String) null, new Organization.PositionInTime(DateUtil.NOW, DateUtil.NOW, "test2", null)));*/
+        educationOrganization.add(new Organization("test2", (String) null, new Organization.PositionInTime(DateUtil.NOW, DateUtil.NOW, "test2", null)));
     }
 
     public static void printContacts(Resume resume) {
         for (ContactsType s : ContactsType.values()) {
-            System.out.println(resume.getContacts(s));
+            System.out.println(s + " " + resume.getContacts(s));
         }
     }
 
