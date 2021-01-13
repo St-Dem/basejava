@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class TextSectionType extends AbstractSection implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    public static TextSectionType EMPTY = new TextSectionType("");
     private String text;
 
     public TextSectionType() {
@@ -39,9 +39,5 @@ public class TextSectionType extends AbstractSection implements Serializable {
     @Override
     public int hashCode() {
         return text.hashCode();
-    }
-
-    public TextSectionType empty(){
-        return new TextSectionType("");
     }
 }

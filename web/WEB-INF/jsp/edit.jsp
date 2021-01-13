@@ -1,7 +1,5 @@
-<%@ page import="com.urise.webapp.model.ContactsType" %>
-<%@ page import="com.urise.webapp.model.OrganizationsSectionType" %>
-<%@ page import="com.urise.webapp.model.SectionType" %>
-<%@ page import="com.urise.webapp.model.AbstractSection" %>
+<%@ page import="com.urise.webapp.util.DateUtil" %>
+<%@ page import="com.urise.webapp.model.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -10,6 +8,10 @@
     <link rel="stylesheet" href="css.style.css">
     <jsp:useBean id="resume" type="com.urise.webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
+    <style>
+        .word {
+            display: block;
+        }</style>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
@@ -26,39 +28,34 @@
         <c:forEach var="type" items="<%=ContactsType.values()%>">
             <dl>
                 <dt>${type.title}</dt>
-                <dd><label>
-                    <input type="text" name="${type.name()}" size=30 value="${resume.getContacts(type)}">
-                </label></dd>
+                <dd><input type="text" name="${type.name()}" size=30 value="${resume.getContacts(type)}"></dd>
             </dl>
         </c:forEach>
         <h3>Секции:</h3>
-        <c:forEach var="sectionEntry" items="${resume.sections}">
-            <jsp:useBean id="sectionEntry"
-                         type="java.util.Map.Entry<com.urise.webapp.model.SectionType, com.urise.webapp.model.AbstractSection>"/>
-            <c:set var="type" value="${sectionEntry.key}"/>
-            <c:set var="section" value="${resume.getSection(type)}"/>
-            <jsp:useBean id="section" type="com.urise.webapp.model.AbstractSection"/>
+        <c:forEach var="sectionType" items="<%=SectionType.values()%>">
+        <c:set var="section" value="${resume.getSection(sectionType)}"/>
+            <jsp:useBean id="section"
+                         type="com.urise.webapp.model.AbstractSection"/>
             <c:choose>
-                <c:when test="${type == 'EXPERIENCE' || type == 'EDUCATION'}">
+                <c:when test="${sectionType == 'PERSONAL' || sectionType == 'OBJECTIVE'}">
                     <dl>
-                        <dt>${type.title}</dt>
-                        <dd><label>
-                            <c:forEach var="org" items="<%=((OrganizationsSectionType) section).getOrganizations()%>"
-                                       varStatus="counter">
-                            <input type="text" name="${type.name()}" size=200 value="${orga}">
-                            </c:forEach>
-                        </label></dd>
+                        <dt>${sectionType.title}</dt>
+                        <dd>
+                            <input type="text" name="${sectionType.name()}" size=150
+                                   value="<%=section%>">
+                        </dd>
                     </dl>
-                    <%=sectionEntry.getKey() + " : " +  sectionEntry.getValue()%><br/>
                 </c:when>
-                <c:otherwise>
+
+                <c:when test="${sectionType == 'ACHIEVEMENT' || sectionType == 'QUALIFICATIONS'}">
                     <dl>
-                        <dt>${type.title}</dt>
-                        <dd><label>
-                            <input type="text" name="${type.name()}" size=300 value="${section}">
-                        </label></dd>
+                        <dt>${sectionType.title}</dt>
+                        <dd>
+                       <textarea name="${sectionType.name()}" rows="8" cols="150" > <%=String.join(System.lineSeparator(), ((ListSectionType)section).getItems())%></textarea>
+                        </dd>
                     </dl>
-                </c:otherwise>
+                </c:when>
+
 
             </c:choose>
         </c:forEach>

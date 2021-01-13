@@ -1,8 +1,7 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
-import com.urise.webapp.model.ContactsType;
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
 
 import javax.servlet.ServletConfig;
@@ -33,6 +32,13 @@ public class ResumeServlet extends HttpServlet {
                 r.getContacts().remove(type);
             }
         }
+
+        for (SectionType type : SectionType.values()) {
+            String value = request.getParameter(type.name());
+            if (value != null && value.trim().length() != 0) {
+                r.addSection(type, addSection(type, value));
+            }
+        }
         storage.update(r);
         response.sendRedirect("resume");
     }
@@ -54,6 +60,11 @@ public class ResumeServlet extends HttpServlet {
             case "view":
             case "edit":
                 r = storage.get(uuid);
+                for (SectionType sectionType : SectionType.values()) {
+                    AbstractSection section = r.getSection(sectionType);
+                    r.addSection(sectionType, getSection(sectionType, section));
+                }
+
                 break;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
@@ -62,5 +73,21 @@ public class ResumeServlet extends HttpServlet {
         request.getRequestDispatcher(
                 ("view".equals(action) ? "/WEB-INF/jsp/view.jsp" : "/WEB-INF/jsp/edit.jsp")
         ).forward(request, response);
+    }
+
+    private AbstractSection addSection(SectionType type, String value) {
+        return switch (type) {
+            case PERSONAL, OBJECTIVE -> new TextSectionType(value);
+            case ACHIEVEMENT, QUALIFICATIONS -> new ListSectionType(value.split(System.lineSeparator()));
+            case EDUCATION, EXPERIENCE -> OrganizationsSectionType.EMPTY;
+        };
+    }
+
+    private AbstractSection getSection(SectionType type, AbstractSection section) {
+      return switch (type) {
+            case PERSONAL, OBJECTIVE -> section == null ? section = TextSectionType.EMPTY : section;
+            case ACHIEVEMENT, QUALIFICATIONS -> section == null ?  section = ListSectionType.EMPTY : section;
+            case EDUCATION, EXPERIENCE -> section == null ? section = OrganizationsSectionType.EMPTY : section;
+        };
     }
 }

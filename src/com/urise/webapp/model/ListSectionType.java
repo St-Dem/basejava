@@ -1,13 +1,11 @@
 package com.urise.webapp.model;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class ListSectionType extends AbstractSection implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    public static ListSectionType EMPTY = new ListSectionType("");
     private List<String> items;
 
     public ListSectionType() {
@@ -45,9 +43,5 @@ public class ListSectionType extends AbstractSection implements Serializable {
     @Override
     public int hashCode() {
         return items.hashCode();
-    }
-
-    public ListSectionType empty(){
-        return new ListSectionType("");
     }
 }

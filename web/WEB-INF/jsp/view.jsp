@@ -26,19 +26,19 @@
     <c:forEach var="sectionEntry" items="${resume.sections}">
         <jsp:useBean id="sectionEntry"
                      type="java.util.Map.Entry<com.urise.webapp.model.SectionType, com.urise.webapp.model.AbstractSection>"/>
-        <c:set var="type" value="${sectionEntry.key}"/>
+        <c:set var="sectionType" value="${sectionEntry.key}"/>
         <c:set var="section" value="${sectionEntry.value}"/>
         <jsp:useBean id="section"
                      type="com.urise.webapp.model.AbstractSection"/>
         <c:choose>
-            <c:when test="${type == 'PERSONAL' || type == 'OBJECTIVE'}">
-                <h3>${type.title}
+            <c:when test="${sectionType == 'PERSONAL' || sectionType == 'OBJECTIVE'}">
+                <h3>${sectionType.title}
                 </h3><br/>
                 <%=((TextSectionType) section).getText()%><br/>
             </c:when>
 
-            <c:when test="${type == 'ACHIEVEMENT' || type == 'QUALIFICATIONS'}">
-                <h3>${type.title}<br/></h3>
+            <c:when test="${sectionType == 'ACHIEVEMENT' || sectionType == 'QUALIFICATIONS'}">
+                <h3>${sectionType.title}<br/></h3>
                 <ul>
                     <c:forEach var="list" items="<%=((ListSectionType) section).getItems()%>">
                         <jsp:useBean id="list" type="java.lang.String"/>
@@ -48,7 +48,7 @@
             </c:when>
 
             <c:otherwise>
-                <h3>${type.title}<br/></h3>
+                <h3>${sectionType.title}<br/></h3>
                 <c:forEach var="organization" items="<%=((OrganizationsSectionType) section).getOrganizations()%>">
                     <jsp:useBean id="organization" type="com.urise.webapp.model.Organization"/>
                     <table>
@@ -74,7 +74,7 @@
                             </td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${type == 'EXPERIENCE'}">
+                                    <c:when test="${sectionType == 'EXPERIENCE'}">
                                         <b>${position.position}</b><br/>${position.description}
                                     </c:when>
                                     <c:otherwise>

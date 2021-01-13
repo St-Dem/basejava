@@ -13,21 +13,18 @@ import java.util.UUID;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
     private static final long serialVersionUID = 1L;
-    // Unique identifier
+
+    private static final Resume EMPTY = new Resume();
+    static {
+        EMPTY.addSection(SectionType.PERSONAL, TextSectionType.EMPTY);
+        EMPTY.addSection(SectionType.OBJECTIVE, TextSectionType.EMPTY);
+        EMPTY.addSection(SectionType.ACHIEVEMENT, ListSectionType.EMPTY);
+        EMPTY.addSection(SectionType.QUALIFICATIONS, ListSectionType.EMPTY);
+        EMPTY.addSection(SectionType.EDUCATION, OrganizationsSectionType.EMPTY);
+        EMPTY.addSection(SectionType.EXPERIENCE, OrganizationsSectionType.EMPTY);
+    }
     private String uuid;
     private String fullName;
-
-    private static final Resume empty = new Resume();
-
-    static {
-        empty.addSection(SectionType.PERSONAL, new TextSectionType().empty());
-        empty.addSection(SectionType.OBJECTIVE, new TextSectionType().empty());
-        empty.addSection(SectionType.ACHIEVEMENT, new ListSectionType().empty());
-        empty.addSection(SectionType.QUALIFICATIONS, new ListSectionType().empty());
-        empty.addSection(SectionType.EDUCATION, new OrganizationsSectionType().empty());
-        empty.addSection(SectionType.EXPERIENCE, new OrganizationsSectionType().empty());
-    }
-
     private final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);
     private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 

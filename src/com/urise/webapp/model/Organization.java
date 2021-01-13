@@ -130,7 +130,7 @@ public class Organization implements Serializable {
         }
 
         public PositionInTime empty(){
-            return new PositionInTime(NOW, NOW, "");
+            return new PositionInTime(NOW, NOW, " ");
         }
     }
 
@@ -166,10 +166,6 @@ public class Organization implements Serializable {
                 "link=" + link +
                 ", positionInTime=" + positionInTime +
                 '}';
-    }
-
-    public Organization empty(){
-        return new Organization(new Link().empty(), new PositionInTime().empty());
     }
 }
 
