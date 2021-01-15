@@ -26,7 +26,8 @@ public class ResumeServlet extends HttpServlet {
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
         if (fullName == null || fullName.trim().length() == 0) {
-            response.sendRedirect("resume");
+            request.setAttribute("resume", Resume.EMPTY());
+            request.getRequestDispatcher("/WEB-INF/jsp/edit.jsp").forward(request, response);
             return;
         }
 

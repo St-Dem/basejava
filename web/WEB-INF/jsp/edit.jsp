@@ -59,19 +59,9 @@
         </c:forEach>
         <hr>
 
-        <script>
-            function isFullName() {
-                let fullName = document.getElementById("fullName").value;
-                if (fullName == null || fullName.length === 0) {
-                    alert("Введите имя");
-                    return false;
-                } else {
-                    return true;
-                }
-            }
-        </script>
-
-        <button type="submit" onclick="isFullName()">Сохранить</button>
+        <button type="submit"
+                onclick="${(resume.fullName == null || resume.fullName.trim().length() == 0) ? false : true}">Сохранить
+        </button>
         <button type="reset">Отменить</button>
     </form>
 </section>
