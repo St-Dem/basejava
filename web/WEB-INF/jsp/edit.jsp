@@ -58,6 +58,7 @@
             </c:choose>
         </c:forEach>
         <hr>
+
         <script>
             function isFullName() {
                 let fullName = document.getElementById("fullName").value;
@@ -67,11 +68,10 @@
                 } else {
                     return true;
                 }
-
             }
         </script>
-        <button type="submit" onclick="isFullName()">Сохранить</button>
 
+        <button type="submit" onclick="isFullName()">Сохранить</button>
         <button type="reset">Отменить</button>
     </form>
 </section>
