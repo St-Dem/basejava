@@ -18,7 +18,7 @@
         <dl>
             <dt>Имя:</dt>
             <dd><label>
-                <input type="text" name="fullName" size=50 value="${resume.fullName}">
+                <input type="text" id="fullName" name="fullName" size=50 value="${resume.fullName}">
             </label></dd>
         </dl>
         <h3>Контакты:</h3>
@@ -58,7 +58,20 @@
             </c:choose>
         </c:forEach>
         <hr>
-        <button type="submit">Сохранить</button>
+        <script>
+            function isFullName() {
+                let fullName = document.getElementById("fullName").value;
+                if (fullName == null || fullName.length === 0) {
+                    alert("Введите имя");
+                    return false;
+                } else {
+                    return true;
+                }
+
+            }
+        </script>
+        <button type="submit" onclick="isFullName()">Сохранить</button>
+
         <button type="reset">Отменить</button>
     </form>
 </section>
