@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="css.style.css">
     <jsp:useBean id="resume" type="com.urise.webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
-<style>
-    h4{
-        color: tomato;
-    }
-</style>
+    <style>
+        h4 {
+            color: tomato;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
@@ -23,11 +23,11 @@
         <dl>
             <dt>Имя:</dt>
             <dd><label>
-                <input type="text"  name="fullName" size=50 value="${resume.fullName}">
+                <input type="text" name="fullName" size=50 value="${resume.fullName}">
             </label></dd>
             <c:choose>
                 <c:when test="${resume.fullName == null || resume.fullName.trim().length() == 0}">
-                    <h4 id = "nameNull">Пожалуйста введите ваше имя!</h4>
+                    <h4 id="nameNull">Пожалуйста введите ваше имя!</h4>
                 </c:when>
             </c:choose>
         </dl>
