@@ -27,6 +27,7 @@ public class ResumeServlet extends HttpServlet {
         String fullName = request.getParameter("fullName");
         if (fullName == null || fullName.trim().length() == 0) {
             request.setAttribute("resume", Resume.EMPTY());
+            request.setAttribute("nameNull", "10");
             request.getRequestDispatcher("/WEB-INF/jsp/edit.jsp").forward(request, response);
             return;
         }
