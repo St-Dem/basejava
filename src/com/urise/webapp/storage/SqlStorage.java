@@ -40,7 +40,7 @@ public class SqlStorage implements Storage {
                 r = new Resume(uuid, rs.getString("full_name"));
             }
             addElement(conn, "SELECT type, value FROM contact c  WHERE c.resume_uuid =? ", r, true);
-            addElement(conn, "SELECT type, value FROM section s  WHERE s.resume_uuid =? ", r,  false);
+            addElement(conn, "SELECT type, value FROM section s  WHERE s.resume_uuid =? ", r, false);
             return r;
         });
     }
@@ -58,7 +58,7 @@ public class SqlStorage implements Storage {
             }
 
             insertElement(conn, "DELETE FROM contact WHERE resume_uuid = ?", r, true);
-            insertElement(conn, "DELETE FROM section WHERE resume_uuid = ?", r ,false);
+            insertElement(conn, "DELETE FROM section WHERE resume_uuid = ?", r, false);
             return null;
         });
     }
@@ -150,14 +150,6 @@ public class SqlStorage implements Storage {
         }
     }
 
-    private String writeSection(SectionType sectionType, Map.Entry<SectionType, AbstractSection> e) {
-        return switch (sectionType) {
-            case PERSONAL, OBJECTIVE -> ((TextSectionType) e.getValue()).getText();
-            case ACHIEVEMENT, QUALIFICATIONS -> String.join("\n", ((ListSectionType) e.getValue()).getItems());
-            default -> "";
-        };
-    }
-
     private void addContacts(ResultSet rs, Resume r) throws SQLException {
         String type = rs.getString("type");
         if (type != null) {
@@ -171,17 +163,9 @@ public class SqlStorage implements Storage {
         if (type != null) {
             String value = rs.getString("value");
             SectionType sectionType = SectionType.valueOf(type);
-           // r.addSection(sectionType, readSection(sectionType, value));
-            r.addSection(sectionType,JsonParser.read(value, AbstractSection.class));
+            // r.addSection(sectionType, readSection(sectionType, value));
+            r.addSection(sectionType, JsonParser.read(value, AbstractSection.class));
         }
-    }
-
-    private AbstractSection readSection(SectionType sectionType, String value) {
-        return switch (sectionType) {
-            case PERSONAL, OBJECTIVE -> new TextSectionType(value);
-            case ACHIEVEMENT, QUALIFICATIONS -> new ListSectionType(value.split("\n"));
-            default -> new OrganizationsSectionType();
-        };
     }
 
     private void addElements(Connection conn, String command, Map<String, Resume> resumeMap, boolean bool) throws SQLException {
@@ -220,7 +204,7 @@ public class SqlStorage implements Storage {
         }
         if (bool) {
             insertContact(r, conn);
-        }else {
+        } else {
             insertSection(r, conn);
         }
     }

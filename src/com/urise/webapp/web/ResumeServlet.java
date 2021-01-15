@@ -1,6 +1,7 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
 
@@ -10,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class ResumeServlet extends HttpServlet {
     private Storage storage;
@@ -22,24 +25,17 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
-        Resume r = storage.get(uuid);
-        r.setFullName(fullName);
-        for (ContactsType type : ContactsType.values()) {
-            String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
-                r.addContacts(type, value);
-            } else {
-                r.getContacts().remove(type);
-            }
+        if (fullName == null || fullName.trim().length() == 0) {
+            response.sendRedirect("resume");
+            return;
         }
 
-        for (SectionType type : SectionType.values()) {
-            String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
-                r.addSection(type, addSection(type, value));
-            }
+        try {
+            Resume r = storage.get(uuid);
+            storage.update(resumePost(request, fullName, r));
+        } catch (NotExistStorageException e) {
+            storage.save(resumePost(request, fullName, new Resume(uuid, fullName)));
         }
-        storage.update(r);
         response.sendRedirect("resume");
     }
 
@@ -58,13 +54,17 @@ public class ResumeServlet extends HttpServlet {
                 response.sendRedirect("resume");
                 return;
             case "view":
+                r = storage.get(uuid);
+                break;
             case "edit":
                 r = storage.get(uuid);
                 for (SectionType sectionType : SectionType.values()) {
                     AbstractSection section = r.getSection(sectionType);
                     r.addSection(sectionType, getSection(sectionType, section));
                 }
-
+                break;
+            case "add":
+                r = Resume.EMPTY();
                 break;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
@@ -75,18 +75,41 @@ public class ResumeServlet extends HttpServlet {
         ).forward(request, response);
     }
 
+    private Resume resumePost(HttpServletRequest request, String fullName, Resume r) {
+        r.setFullName(fullName);
+        for (ContactsType type : ContactsType.values()) {
+            String value = request.getParameter(type.name());
+            if (value != null && value.trim().length() != 0) {
+                r.addContacts(type, value);
+            } else {
+                r.getContacts().remove(type);
+            }
+        }
+
+        for (SectionType type : SectionType.values()) {
+            String value = request.getParameter(type.name());
+            if (value != null && value.trim().length() != 0) {
+                r.addSection(type, addSection(type, value));
+            } else {
+                r.getSections().remove(type);
+            }
+        }
+        return r;
+    }
+
     private AbstractSection addSection(SectionType type, String value) {
         return switch (type) {
-            case PERSONAL, OBJECTIVE -> new TextSectionType(value);
-            case ACHIEVEMENT, QUALIFICATIONS -> new ListSectionType(value.split(System.lineSeparator()));
+            case PERSONAL, OBJECTIVE -> new TextSectionType(value.trim());
+            case ACHIEVEMENT, QUALIFICATIONS -> new ListSectionType(Arrays.stream(value.split(System.lineSeparator()))
+                    .filter(s -> s.trim().length() != 0).collect(Collectors.toList()));
             case EDUCATION, EXPERIENCE -> OrganizationsSectionType.EMPTY;
         };
     }
 
     private AbstractSection getSection(SectionType type, AbstractSection section) {
-      return switch (type) {
+        return switch (type) {
             case PERSONAL, OBJECTIVE -> section == null ? section = TextSectionType.EMPTY : section;
-            case ACHIEVEMENT, QUALIFICATIONS -> section == null ?  section = ListSectionType.EMPTY : section;
+            case ACHIEVEMENT, QUALIFICATIONS -> section == null ? section = ListSectionType.EMPTY : section;
             case EDUCATION, EXPERIENCE -> section == null ? section = OrganizationsSectionType.EMPTY : section;
         };
     }

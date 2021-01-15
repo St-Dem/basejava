@@ -5,7 +5,7 @@ import java.util.*;
 
 public class ListSectionType extends AbstractSection implements Serializable {
     private static final long serialVersionUID = 1L;
-    public static ListSectionType EMPTY = new ListSectionType("");
+    public static ListSectionType EMPTY = new ListSectionType(new ArrayList<>());
     private List<String> items;
 
     public ListSectionType() {

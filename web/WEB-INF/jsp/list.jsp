@@ -15,16 +15,19 @@
         <tr>
             <th>Имя</th>
             <th>Email</th>
-            <th></th>
-            <th></th>
+            <th>Удалить</th>
+            <th>Редактировать</th>
+            <th>Сохранить</th>
         </tr>
         <c:forEach items="${resumes}" var="resume">
             <jsp:useBean id="resume" type="com.urise.webapp.model.Resume"/>
             <tr>
                 <td><a href="resume?uuid=${resume.uuid}&action=view">${resume.fullName}</a></td>
-                <td><%=ContactsType.EMAIL.toHtml(resume.getContacts(ContactsType.EMAIL))%></td>
+                <td><%=ContactsType.EMAIL.toHtml(resume.getContacts(ContactsType.EMAIL))%>
+                </td>
                 <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png"></a></td>
                 <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></td>
+                <td><a href="resume?uuid=${resume.uuid}&action=add"><img src="img/add.png"></a></td>
             </tr>
         </c:forEach>
     </table>

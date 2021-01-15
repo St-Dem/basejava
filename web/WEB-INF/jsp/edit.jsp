@@ -8,10 +8,7 @@
     <link rel="stylesheet" href="css.style.css">
     <jsp:useBean id="resume" type="com.urise.webapp.model.Resume" scope="request"/>
     <title>Резюме ${resume.fullName}</title>
-    <style>
-        .word {
-            display: block;
-        }</style>
+
 </head>
 <body>
 <jsp:include page="fragments/header.jsp"/>
@@ -33,7 +30,7 @@
         </c:forEach>
         <h3>Секции:</h3>
         <c:forEach var="sectionType" items="<%=SectionType.values()%>">
-        <c:set var="section" value="${resume.getSection(sectionType)}"/>
+            <c:set var="section" value="${resume.getSection(sectionType)}"/>
             <jsp:useBean id="section"
                          type="com.urise.webapp.model.AbstractSection"/>
             <c:choose>
@@ -51,7 +48,8 @@
                     <dl>
                         <dt>${sectionType.title}</dt>
                         <dd>
-                       <textarea name="${sectionType.name()}" rows="8" cols="150" > <%=String.join(System.lineSeparator(), ((ListSectionType)section).getItems())%></textarea>
+                            <textarea name="${sectionType.name()}" rows="8"
+                                      cols="150"> <%=String.join(System.lineSeparator(), ((ListSectionType) section).getItems())%></textarea>
                         </dd>
                     </dl>
                 </c:when>
@@ -61,7 +59,7 @@
         </c:forEach>
         <hr>
         <button type="submit">Сохранить</button>
-        <button onclick="window.history.back()">Отменить</button>
+        <button type="reset">Отменить</button>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>

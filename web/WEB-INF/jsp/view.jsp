@@ -30,15 +30,20 @@
         <c:set var="section" value="${sectionEntry.value}"/>
         <jsp:useBean id="section"
                      type="com.urise.webapp.model.AbstractSection"/>
+        <tr>
+            <td><h3>
+                    ${sectionType.title}
+            </h3></td>
+        </tr>
         <c:choose>
             <c:when test="${sectionType == 'PERSONAL' || sectionType == 'OBJECTIVE'}">
-                <h3>${sectionType.title}
+
                 </h3><br/>
                 <%=((TextSectionType) section).getText()%><br/>
             </c:when>
 
             <c:when test="${sectionType == 'ACHIEVEMENT' || sectionType == 'QUALIFICATIONS'}">
-                <h3>${sectionType.title}<br/></h3>
+
                 <ul>
                     <c:forEach var="list" items="<%=((ListSectionType) section).getItems()%>">
                         <jsp:useBean id="list" type="java.lang.String"/>
@@ -48,7 +53,7 @@
             </c:when>
 
             <c:otherwise>
-                <h3>${sectionType.title}<br/></h3>
+
                 <c:forEach var="organization" items="<%=((OrganizationsSectionType) section).getOrganizations()%>">
                     <jsp:useBean id="organization" type="com.urise.webapp.model.Organization"/>
                     <table>

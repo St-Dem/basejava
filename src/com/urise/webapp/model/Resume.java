@@ -14,15 +14,6 @@ import java.util.UUID;
 public class Resume implements Comparable<Resume>, Serializable {
     private static final long serialVersionUID = 1L;
 
-    private static final Resume EMPTY = new Resume();
-    static {
-        EMPTY.addSection(SectionType.PERSONAL, TextSectionType.EMPTY);
-        EMPTY.addSection(SectionType.OBJECTIVE, TextSectionType.EMPTY);
-        EMPTY.addSection(SectionType.ACHIEVEMENT, ListSectionType.EMPTY);
-        EMPTY.addSection(SectionType.QUALIFICATIONS, ListSectionType.EMPTY);
-        EMPTY.addSection(SectionType.EDUCATION, OrganizationsSectionType.EMPTY);
-        EMPTY.addSection(SectionType.EXPERIENCE, OrganizationsSectionType.EMPTY);
-    }
     private String uuid;
     private String fullName;
     private final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);
@@ -103,5 +94,16 @@ public class Resume implements Comparable<Resume>, Serializable {
     public int compareTo(Resume o) {
         int cmp = fullName.compareTo(o.fullName);
         return cmp != 0 ? cmp : uuid.compareTo(o.uuid);
+    }
+
+    public static Resume EMPTY(){
+        Resume resume = new Resume(UUID.randomUUID().toString(), "");
+        resume.addSection(SectionType.PERSONAL, TextSectionType.EMPTY);
+        resume.addSection(SectionType.OBJECTIVE, TextSectionType.EMPTY);
+        resume.addSection(SectionType.ACHIEVEMENT, ListSectionType.EMPTY);
+        resume.addSection(SectionType.QUALIFICATIONS, ListSectionType.EMPTY);
+        resume.addSection(SectionType.EXPERIENCE, OrganizationsSectionType.EMPTY);
+        resume.addSection(SectionType.EDUCATION, OrganizationsSectionType.EMPTY);
+        return resume;
     }
 }
