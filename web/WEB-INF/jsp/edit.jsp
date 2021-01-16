@@ -59,7 +59,7 @@
                         <dt>${sectionType.title}</dt>
                         <dd>
                             <textarea name="${sectionType.name()}" rows="8"
-                                      cols="150"> <%=String.join(System.lineSeparator(), ((ListSectionType) section).getItems())%></textarea>
+                                      cols="150"><%=String.join(System.lineSeparator(), ((ListSectionType) section).getItems())%></textarea>
                         </dd>
                     </dl>
                 </c:when>

@@ -17,7 +17,7 @@
             <th>Email</th>
             <th>Удалить</th>
             <th>Редактировать</th>
-            <th>Сохранить</th>
+            <th>Добавить</th>
         </tr>
         <c:forEach items="${resumes}" var="resume">
             <jsp:useBean id="resume" type="com.urise.webapp.model.Resume"/>

@@ -26,7 +26,7 @@ public class ResumeServlet extends HttpServlet {
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullName");
         if (fullName == null || fullName.trim().length() == 0) {
-            request.setAttribute("resume", Resume.EMPTY());
+            request.setAttribute("resume", Resume.EMPTY);
             request.getRequestDispatcher("/WEB-INF/jsp/edit.jsp").forward(request, response);
             return;
         }
@@ -65,7 +65,7 @@ public class ResumeServlet extends HttpServlet {
                 }
                 break;
             case "add":
-                r = Resume.EMPTY();
+                r = Resume.EMPTY;
                 break;
             default:
                 throw new IllegalArgumentException("Action " + action + " is illegal");
