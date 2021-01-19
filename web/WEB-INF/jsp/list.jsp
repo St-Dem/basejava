@@ -13,11 +13,14 @@
 <section>
     <table border="1" cellpadding="8" cellspacing="0">
         <tr>
+            <td><a href="resume?uuid=${resume.uuid}&action=add"><img src="img/add.png"></a></td>
+            <th>Создать новое резюме</th>
+        </tr>
+        <tr>
             <th>Имя</th>
             <th>Email</th>
             <th>Удалить</th>
             <th>Редактировать</th>
-            <th>Создать</th>
         </tr>
         <c:forEach items="${resumes}" var="resume">
             <jsp:useBean id="resume" type="com.urise.webapp.model.Resume"/>
@@ -27,7 +30,6 @@
                 </td>
                 <td><a href="resume?uuid=${resume.uuid}&action=delete"><img src="img/delete.png"></a></td>
                 <td><a href="resume?uuid=${resume.uuid}&action=edit"><img src="img/pencil.png"></a></td>
-                <td><a href="resume?uuid=${resume.uuid}&action=add"><img src="img/add.png"></a></td>
             </tr>
         </c:forEach>
     </table>

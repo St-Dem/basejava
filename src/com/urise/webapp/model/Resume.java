@@ -19,7 +19,7 @@ public class Resume implements Comparable<Resume>, Serializable {
     private final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);
     private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
-    public final static Resume  EMPTY = new Resume(UUID.randomUUID().toString(), "");
+    public final static Resume  EMPTY = new Resume();
 
     static {
         EMPTY.addSection(SectionType.PERSONAL, TextSectionType.EMPTY);

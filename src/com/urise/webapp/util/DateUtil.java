@@ -16,4 +16,11 @@ public class DateUtil {
                 ? " Сейчас "
                 : (month > 9 ? String.valueOf(month) : ("0" + month)) + "/" + localDate.getYear();
     }
+
+    public static LocalDate toHtmlEdit(LocalDate localDate) {
+        int month = localDate.getMonthValue();
+        return localDate.equals(NOW)
+                ? LocalDate.now()
+                : localDate;
+    }
 }

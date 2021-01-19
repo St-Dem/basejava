@@ -1,7 +1,6 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
 
@@ -11,11 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ResumeServlet extends HttpServlet {
     private Storage storage;
+    boolean isRemove = false;
 
     public void init(ServletConfig config) throws ServletException {
         storage = Config.get().getStorage();
@@ -30,12 +33,11 @@ public class ResumeServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/jsp/edit.jsp").forward(request, response);
             return;
         }
-
-        try {
+        if (uuid == null || uuid.length() == 0) {
+            storage.save(resumePost(request, fullName, new Resume(fullName)));
+        } else {
             Resume r = storage.get(uuid);
             storage.update(resumePost(request, fullName, r));
-        } catch (NotExistStorageException e) {
-            storage.save(resumePost(request, fullName, new Resume(uuid, fullName)));
         }
         response.sendRedirect("resume");
     }
@@ -80,7 +82,7 @@ public class ResumeServlet extends HttpServlet {
         r.setFullName(fullName);
         for (ContactsType type : ContactsType.values()) {
             String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
+            if (isNotEmpty(value)) {
                 r.addContacts(type, value);
             } else {
                 r.getContacts().remove(type);
@@ -89,29 +91,69 @@ public class ResumeServlet extends HttpServlet {
 
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
-                r.addSection(type, addSection(type, value));
-            } else {
+            String[] parameterValues = request.getParameterValues(type.name());
+            if (!isNotEmpty(value) && parameterValues.length < 2) {
                 r.getSections().remove(type);
+            } else {
+                addSection(request, type, value, parameterValues, r);
             }
         }
         return r;
     }
 
-    private AbstractSection addSection(SectionType type, String value) {
-        return switch (type) {
-            case PERSONAL, OBJECTIVE -> new TextSectionType(value.trim());
-            case ACHIEVEMENT, QUALIFICATIONS -> new ListSectionType(Arrays.stream(value.split(System.lineSeparator()))
-                    .filter(s -> s.trim().length() != 0).collect(Collectors.toList()));
-            case EDUCATION, EXPERIENCE -> OrganizationsSectionType.EMPTY;
-        };
+    private void addSection(HttpServletRequest request, SectionType type, String value, String[] parameterValues, Resume r) {
+        switch (type) {
+            case PERSONAL, OBJECTIVE -> r.addSection(type, new TextSectionType(value.trim()));
+            case ACHIEVEMENT, QUALIFICATIONS -> r.addSection((type), new ListSectionType(Arrays.stream
+                    (value.split(System.lineSeparator())).filter(s -> s.trim().length() != 0).collect(Collectors.toList())));
+            case EDUCATION, EXPERIENCE -> {
+                List<Organization> arrayList = new ArrayList<>();
+                String[] urls = request.getParameterValues(type.name() + "url");
+
+                for (int i = 0; i < parameterValues.length; i++) {
+                    String name = parameterValues[i];
+                    if (isNotEmpty(name)) {
+                        List<Organization.PositionInTime> positionInTimes = new ArrayList<>();
+                        String[] datesStart = request.getParameterValues(type.name() + i + "dateStart");
+                        String[] datesEnd = request.getParameterValues(type.name() + i + "dateEnd");
+                        String[] positions = request.getParameterValues(type.name() + i + "position");
+                        String[] descriptions = request.getParameterValues(type.name() + i + "description");
+                        for (int j = 0; j < positions.length; j++) {
+                            if (isNotEmpty(positions[j])) {
+                                positionInTimes.add(new Organization.PositionInTime(LocalDate.parse(datesStart[j]),
+                                        LocalDate.parse(datesEnd[j]), positions[j], descriptions[j]));
+                            }
+                        }
+                        arrayList.add(new Organization(name, urls[i], positionInTimes));
+                    }
+                }
+                r.addSection(type, new OrganizationsSectionType(arrayList));
+            }
+        }
     }
 
     private AbstractSection getSection(SectionType type, AbstractSection section) {
         return switch (type) {
             case PERSONAL, OBJECTIVE -> section == null ? section = TextSectionType.EMPTY : section;
             case ACHIEVEMENT, QUALIFICATIONS -> section == null ? section = ListSectionType.EMPTY : section;
-            case EDUCATION, EXPERIENCE -> section == null ? section = OrganizationsSectionType.EMPTY : section;
+            case EDUCATION, EXPERIENCE -> section == null ? section = OrganizationsSectionType.EMPTY : addEmpty(section);
         };
+    }
+
+    private AbstractSection addEmpty(AbstractSection section) {
+        List<Organization> orgFirstEmpty = new ArrayList<>();
+        orgFirstEmpty.add(Organization.EMPTY);
+        for (Organization org : ((OrganizationsSectionType) section).getOrganizations()) {
+            List<Organization.PositionInTime> positionFirstEmpty = new ArrayList<>();
+            positionFirstEmpty.add(Organization.PositionInTime.EMPTY);
+            positionFirstEmpty.addAll(org.getPositionInTime());
+            orgFirstEmpty.add(new Organization(org.getLink(), positionFirstEmpty));
+        }
+        return new OrganizationsSectionType(orgFirstEmpty);
+    }
+
+
+    public boolean isNotEmpty(String str) {
+        return !(str == null || str.trim().isEmpty());
     }
 }

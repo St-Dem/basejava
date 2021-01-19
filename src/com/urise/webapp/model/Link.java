@@ -8,7 +8,7 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Link implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    public final static Link EMPTY = new Link("", "");
     private String name;
     private String url;
 
