@@ -3,6 +3,7 @@ package com.urise.webapp.web;
 import com.urise.webapp.Config;
 import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
+import com.urise.webapp.util.DateUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -120,8 +121,9 @@ public class ResumeServlet extends HttpServlet {
                         String[] descriptions = request.getParameterValues(type.name() + i + "description");
                         for (int j = 0; j < positions.length; j++) {
                             if (isNotEmpty(positions[j])) {
+                                LocalDate dateEnd = LocalDate.parse(datesEnd[j]);
                                 positionInTimes.add(new Organization.PositionInTime(LocalDate.parse(datesStart[j]),
-                                        LocalDate.parse(datesEnd[j]), positions[j], descriptions[j]));
+                                        (dateEnd.equals(LocalDate.now()) ? DateUtil.NOW : dateEnd), positions[j], descriptions[j]));
                             }
                         }
                         arrayList.add(new Organization(name, urls[i], positionInTimes));
