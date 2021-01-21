@@ -130,6 +130,7 @@
                 onclick="${(resume.fullName == null || resume.fullName.trim().length() == 0) ?  false : true}">Сохранить
         </button>
         <button type="reset">Отменить</button>
+        <button onclick="history.back()">Назад</button>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>

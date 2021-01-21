@@ -1,5 +1,6 @@
 package com.urise.webapp.storage.serialize;
 
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.*;
 
 import java.io.*;
@@ -30,18 +31,27 @@ public class DataStreamSerializer implements StreamSerializer {
 
                 dos.writeUTF(sectionType.toString());
                 switch (sectionType) {
-                    case PERSONAL, OBJECTIVE -> dos.writeUTF(abstractSection.toString());
-                    case ACHIEVEMENT, QUALIFICATIONS -> writeCollection(dos, ((ListSectionType) abstractSection).getItems(), dos::writeUTF);
-                    case EXPERIENCE, EDUCATION -> writeCollection(dos, ((OrganizationsSectionType) abstractSection).getOrganizations(), organization -> {
-                        dos.writeUTF(organization.getLink().getName());
-                        dos.writeUTF(organization.getLink().getUrl());
-                        writeCollection(dos, organization.getPositionInTime(), positionInTime -> {
-                            dos.writeUTF(getDate(positionInTime.getDateStart()));
-                            dos.writeUTF(getDate(positionInTime.getDateEnd()));
-                            dos.writeUTF(positionInTime.getPosition());
-                            dos.writeUTF(positionInTime.getDescription());
+                    case PERSONAL:
+                        case OBJECTIVE:
+                        dos.writeUTF(abstractSection.toString());
+                        break;
+                    case ACHIEVEMENT:
+                        case QUALIFICATIONS:
+                        writeCollection(dos, ((ListSectionType) abstractSection).getItems(), dos::writeUTF);
+                        break;
+                    case EXPERIENCE:
+                        case EDUCATION:
+                        writeCollection(dos, ((OrganizationsSectionType) abstractSection).getOrganizations(), organization -> {
+                            dos.writeUTF(organization.getLink().getName());
+                            dos.writeUTF(organization.getLink().getUrl());
+                            writeCollection(dos, organization.getPositionInTime(), positionInTime -> {
+                                dos.writeUTF(getDate(positionInTime.getDateStart()));
+                                dos.writeUTF(getDate(positionInTime.getDateEnd()));
+                                dos.writeUTF(positionInTime.getPosition());
+                                dos.writeUTF(positionInTime.getDescription());
+                            });
                         });
-                    });
+                        break;
                 }
             });
         }
@@ -90,22 +100,31 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private <T> AbstractSection readSection(DataInputStream dis, SectionType sectionType) throws IOException {
-        return switch (sectionType) {
-            case PERSONAL, OBJECTIVE -> new TextSectionType(dis.readUTF());
-            case ACHIEVEMENT, QUALIFICATIONS -> new ListSectionType(readList(dis, dis::readUTF));
-            case EXPERIENCE, EDUCATION -> new OrganizationsSectionType(
-                    readList(dis, () -> (
-                                    new Organization(dis.readUTF(), dis.readUTF(),
-                                            readList(dis, () -> (
-                                                            new Organization.PositionInTime(LocalDate.parse(dis.readUTF()),
-                                                                    LocalDate.parse(dis.readUTF()), dis.readUTF(), dis.readUTF())
-                                                    )
-                                            )
-                                    )
-                            )
-                    )
-            );
-        };
+        switch (sectionType) {
+            case PERSONAL:
+              case OBJECTIVE:
+                return new TextSectionType(dis.readUTF());
+            case ACHIEVEMENT:
+              case QUALIFICATIONS:
+                return new ListSectionType(readList(dis, dis::readUTF));
+            case EXPERIENCE:
+              case EDUCATION:
+                return new OrganizationsSectionType(
+                        readList(dis, () -> (
+                                        new Organization(dis.readUTF(), dis.readUTF(),
+                                                readList(dis, () -> (
+                                                                new Organization.PositionInTime(LocalDate.parse(dis.readUTF()),
+                                                                        LocalDate.parse(dis.readUTF()), dis.readUTF(), dis.readUTF())
+                                                        )
+                                                )
+                                        )
+                                )
+                        )
+                );
+            default:
+                throw new StorageException("Exception in DataStreamSerializer");
+        }
+
     }
 
     private <T> void readCollection(DataInputStream dis, Reader<T> reader) throws IOException {
