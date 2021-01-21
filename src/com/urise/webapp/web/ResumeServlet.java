@@ -1,6 +1,7 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
 import com.urise.webapp.util.DateUtil;
@@ -104,10 +105,14 @@ public class ResumeServlet extends HttpServlet {
 
     private void addSection(HttpServletRequest request, SectionType type, String value, String[] parameterValues, Resume r) {
         switch (type) {
-            case PERSONAL, OBJECTIVE -> r.addSection(type, new TextSectionType(value.trim()));
-            case ACHIEVEMENT, QUALIFICATIONS -> r.addSection((type), new ListSectionType(Arrays.stream
+            case PERSONAL:
+                OBJECTIVE: r.addSection(type, new TextSectionType(value.trim()));
+                break;
+            case ACHIEVEMENT:
+                QUALIFICATIONS: r.addSection((type), new ListSectionType(Arrays.stream
                     (value.split(System.lineSeparator())).filter(s -> s.trim().length() != 0).collect(Collectors.toList())));
-            case EDUCATION, EXPERIENCE -> {
+                break;
+            case EDUCATION: EXPERIENCE: {
                 List<Organization> arrayList = new ArrayList<>();
                 String[] urls = request.getParameterValues(type.name() + "url");
 
@@ -131,15 +136,23 @@ public class ResumeServlet extends HttpServlet {
                 }
                 r.addSection(type, new OrganizationsSectionType(arrayList));
             }
+            break;
         }
     }
 
     private AbstractSection getSection(SectionType type, AbstractSection section) {
-        return switch (type) {
-            case PERSONAL, OBJECTIVE -> section == null ? section = TextSectionType.EMPTY : section;
-            case ACHIEVEMENT, QUALIFICATIONS -> section == null ? section = ListSectionType.EMPTY : section;
-            case EDUCATION, EXPERIENCE -> section == null ? section = OrganizationsSectionType.EMPTY : addEmpty(section);
-        };
+       switch (type) {
+            case PERSONAL:
+            case OBJECTIVE: return section == null ? section = TextSectionType.EMPTY : section;
+           case ACHIEVEMENT:
+           case QUALIFICATIONS:
+               return section == null ? section = ListSectionType.EMPTY : section;
+           case EDUCATION:
+           case EXPERIENCE:
+               return section == null ? section = OrganizationsSectionType.EMPTY : addEmpty(section);
+           default:
+               throw new StorageException("Eror in web");
+        }
     }
 
     private AbstractSection addEmpty(AbstractSection section) {
