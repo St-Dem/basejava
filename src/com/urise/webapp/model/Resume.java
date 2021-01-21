@@ -13,13 +13,22 @@ import java.util.UUID;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Resume implements Comparable<Resume>, Serializable {
     private static final long serialVersionUID = 1L;
-    // Unique identifier
+
     private String uuid;
-
     private String fullName;
-
     private final Map<ContactsType, String> contacts = new EnumMap<>(ContactsType.class);
     private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
+
+    public final static Resume  EMPTY = new Resume();
+
+    static {
+        EMPTY.addSection(SectionType.PERSONAL, TextSectionType.EMPTY);
+        EMPTY.addSection(SectionType.OBJECTIVE, TextSectionType.EMPTY);
+        EMPTY.addSection(SectionType.ACHIEVEMENT, ListSectionType.EMPTY);
+        EMPTY.addSection(SectionType.QUALIFICATIONS, ListSectionType.EMPTY);
+        EMPTY.addSection(SectionType.EXPERIENCE, OrganizationsSectionType.EMPTY);
+        EMPTY.addSection(SectionType.EDUCATION, OrganizationsSectionType.EMPTY);
+    }
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -41,6 +50,10 @@ public class Resume implements Comparable<Resume>, Serializable {
 
     public String getUuid() {
         return uuid;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getContacts(ContactsType type) {

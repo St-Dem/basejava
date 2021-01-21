@@ -21,10 +21,23 @@ public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
     public final static String NULL_HOLDER = "";
+    public final static Organization EMPTY = new Organization(Link.EMPTY,
+            PositionInTime.EMPTY);
     private Link link;
     private List<PositionInTime> positionInTime = new ArrayList<>();
 
+
     public Organization() {
+    }
+
+    public Organization(Link link, PositionInTime ...positionInTime){
+        this.link = link;
+        this.positionInTime = Arrays.asList(positionInTime);
+    }
+
+    public Organization(Link link, List<PositionInTime> positionInTime){
+        this.link = link;
+        this.positionInTime = positionInTime;
     }
 
     public Organization(String name, PositionInTime... positionInTime) {
@@ -54,7 +67,7 @@ public class Organization implements Serializable {
         private LocalDate dateEnd;
         private String position;
         private String description;
-
+        public final static PositionInTime EMPTY = new PositionInTime(NOW, NOW, "");
 
         public PositionInTime() {
         }
@@ -97,6 +110,7 @@ public class Organization implements Serializable {
         public String getDescription() {
             return description;
         }
+
 
         @Override
         public boolean equals(Object o) {
